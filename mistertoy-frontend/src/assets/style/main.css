@@ -1,0 +1,27 @@
+/* Setup */
+@import '../style/setup/typography.css';
+@import '../style/setup/vars.css';
+
+/* base */
+@import '../style/base/base.css';
+@import '../style/base/forms.css';
+@import '../style/base/helpers.css';
+@import '../style/base/layout.css';
+
+/* cmps */
+
+
+
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app > * {
+    width: 100%;
+}
+
+main {
+    flex-grow: 1;
+}
