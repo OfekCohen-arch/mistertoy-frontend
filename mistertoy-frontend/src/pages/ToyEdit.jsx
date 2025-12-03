@@ -3,71 +3,103 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { toyService } from "../services/toy.service.local.js";
 import { saveToy } from "../store/actions/toy.actions.js";
 import { showSuccessMsg } from "../services/event-bus.service.js";
+import { LabelChooser } from "../cmps/LabelChooser.jsx";
 
 
-export function ToyEdit(){
-  const {toyId} = useParams()  
-  const [toy,setToy] = useState(toyService.getEmptyToy())
+export function ToyEdit() {
+  const { toyId } = useParams()
+  const [toy, setToy] = useState(toyService.getEmptyToy())
+  const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
+    'Outdoor', 'Battery Powered']
+
+  const [selectedLabels, setSelectedLabels] = useState([])
   const navigate = useNavigate()
-    useEffect(()=>{
-     if(toyId) loadToy()
-    },[])
+  useEffect(() => {
+    if (toyId) loadToy()
+  }, [])
 
-   function loadToy(){
+  function loadToy() {
     toyService.getById(toyId)
-    .then(setToy)
-    .catch(err => {
-                console.log('Had issues in toy edit', err)
-                navigate('/toy')
-            })
-   }
-   function handleChange({ target }) {
-        const field = target.name
-        let value = target.value
+      .then((toy)=>{
+        setToy(toy)
+      })
+      .catch(err => {
+        console.log('Had issues in toy edit', err)
+        navigate('/toy')
+      })
+  }
+  function resetLabels(ev) {
+    ev.preventDefault()
+    setToy((prevToy)=>({...prevToy,labels:[]}))
+  }
+  function handleChange({ target }) {
+    const field = target.name
+    let value = target.value
 
-        switch (target.type) {
-            case 'number':
-            case 'range':
-                value = +value || ''
-                break
+    switch (target.type) {
+      case 'number':
+      case 'range':
+        value = +value || ''
+        break
 
-            case 'checkbox':
-                value = target.checked
-                break
+      case 'checkbox':
+        value = target.checked
+        break
 
-            default:
-                break
-        }
-        setToy((prevToy) => ({ ...prevToy, [field]: value }))
+      default:
+        break
     }
+    setToy((prevToy) => ({ ...prevToy, [field]: value }))
+  }
+  function handleChangeLabels({ target }) {
+    const { name, checked } = target
+    if(checked) setToy((prevToy)=>({...prevToy,labels:[...toy.labels,name]}))
+      else {
+       setToy((prevToy)=>({...prevToy,labels:toy.labels.filter(label=>label!==name)}))
+    }
+  }
 
-    function onSaveToy(ev){
+  function onSaveToy(ev) {
     ev.preventDefault()
     saveToy(toy)
-    .then(
-      (savedToy)=>{
-        showSuccessMsg('Toy Saved (id:',savedToy._id,')')
-        navigate('/toy')
-      }
-    )
-    }
-    
-  return(
+      .then(
+        (savedToy) => {
+          showSuccessMsg('Toy Saved (id:', savedToy._id, ')')
+          navigate('/toy')
+        }
+      )
+  }
+  
+  
+  return (
     <section className="toy-edit">
-    <h2>{toy._id ? 'Edit' : 'Add' } Toy</h2>
-    <form onSubmit={onSaveToy}>
-      <label htmlFor="name">Name:</label>  
-      <input value={toy.name || ''} name="name" type="text" onChange={handleChange}/>
+      <h2>{toy._id ? 'Edit' : 'Add'} Toy</h2>
+      <form onSubmit={onSaveToy}>
+        <label htmlFor="name">Name:</label>
+        <input value={toy.name || ''} name="name" type="text" onChange={handleChange} />
 
-      <label htmlFor="price">price:</label>  
-      <input value={toy.price || 0} name="price" type="number" onChange={handleChange}/>
+        <label htmlFor="price">price:</label>
+        <input value={toy.price || 0} name="price" type="number" onChange={handleChange} />
 
-      <label htmlFor="inStock">in stock:</label>  
-      <input  name="inStock"  type="checkbox" checked={toy.inStock ?? true} value={toy.inStock ?? true} onChange={handleChange}/>
-      <button>Save</button>
-      <Link to='/toy'>Cancel</Link>
-    </form>
+        <fieldset className="label-chooser">
+          {labels.map(label =>
+            <label key={label} className="tag">
+              <input
+                onChange={handleChangeLabels}
+                name={label}
+                checked={toy.labels.includes(label) || false}
+                type="checkbox" />
+              <span>{label}</span>
+            </label>)}
+          <button onClick={resetLabels}>Clear Labels</button>
+        </fieldset>
+
+        <label htmlFor="inStock">in stock:</label>
+        <input name="inStock" type="checkbox" checked={toy.inStock ?? true} value={toy.inStock ?? true} onChange={handleChange} />
+        <button>Save</button>
+        <Link to='/toy'>Cancel</Link>
+      </form>
     </section>
   )
-  
+
 }
