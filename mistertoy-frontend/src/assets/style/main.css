@@ -11,6 +11,8 @@
 /* cmps */
 
 @import '../style/cmps/toy-preview.css';
+@import '../style/cmps/toy-edit.css';
+@import '../style/cmps/toy-list.css';
 
 .app {
     display: flex;

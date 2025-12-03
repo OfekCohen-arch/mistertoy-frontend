@@ -10,6 +10,7 @@ export function ToyPreview({toy}){
           <hr/>
           <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
           <Link to={`/toy/${toy._id}`}>Details</Link>
+          <button>Remove</button>
         </article>
     )
 }

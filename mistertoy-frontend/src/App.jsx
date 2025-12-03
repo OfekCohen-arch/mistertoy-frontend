@@ -17,7 +17,7 @@ function App() {
           <Routes>
           <Route element={<ToyIndex/>} path='/toy'/>
           <Route element={<ToyEdit/>} path='/toy/edit'/>
-          <Route element={<ToyEdit/>} path='/toy/edit:toyId'/>
+          <Route element={<ToyEdit/>} path='/toy/edit/:toyId'/>
           <Route element={<ToyDetails/>} path='/toy/:toyId'/>
           </Routes>
         </section>

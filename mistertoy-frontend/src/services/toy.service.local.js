@@ -51,7 +51,7 @@ function save(toy) {
 function getEmptyToy() {
   return {
     name: "",
-    imgUrl: "",
+    imgUrl: "src/assets/react.svg",
     price: "",
     labels: [],
     inStock: true,
