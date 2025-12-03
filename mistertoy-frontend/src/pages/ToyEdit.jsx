@@ -3,16 +3,18 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { toyService } from "../services/toy.service.local.js";
 import { saveToy } from "../store/actions/toy.actions.js";
 import { showSuccessMsg } from "../services/event-bus.service.js";
-import { LabelChooser } from "../cmps/LabelChooser.jsx";
-
+import { useOnlineStatus } from "../hooks/useOnlineStatus.js";
+import {useConfirmTabClose} from "../hooks/useConfirmTabClose.js"
 
 export function ToyEdit() {
   const { toyId } = useParams()
   const [toy, setToy] = useState(toyService.getEmptyToy())
   const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
     'Outdoor', 'Battery Powered']
+ 
+  const isOnline = useOnlineStatus()
+  const setHasUnsavedChanges = useConfirmTabClose()
 
-  const [selectedLabels, setSelectedLabels] = useState([])
   const navigate = useNavigate()
   useEffect(() => {
     if (toyId) loadToy()
@@ -50,6 +52,7 @@ export function ToyEdit() {
         break
     }
     setToy((prevToy) => ({ ...prevToy, [field]: value }))
+    setHasUnsavedChanges(true)
   }
   function handleChangeLabels({ target }) {
     const { name, checked } = target
@@ -99,6 +102,7 @@ export function ToyEdit() {
         <button>Save</button>
         <Link to='/toy'>Cancel</Link>
       </form>
+      <h1>{isOnline? '✅ Online' : '❌ Disconnected'}</h1>
     </section>
   )
 
