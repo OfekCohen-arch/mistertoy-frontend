@@ -28,16 +28,16 @@ export function ToyIndex(){
     
     return(
 
-        <>
+        <section>
         <h3>Mister Toys</h3>
          <ToyFilter filterBy={filterBy} onSetFilter={setFilterBy}/>
-        <Link to='/toy/edit'>Add Toy</Link>
+        <button><Link to='/toy/edit'>Add Toy</Link></button>
        {!isLoading ?
        <ToyList toys={toys} onRemoveToy={onRemoveToy}/>
        :
        'Loading...'
        }
         
-        </>
+        </section>
     )
 }

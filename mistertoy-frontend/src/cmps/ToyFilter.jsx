@@ -32,6 +32,38 @@ function handleChange({ target }) {
 
             <LabelChooser labels={labels} filterBy={filterByToEdit} onSetFilterBy={setFilterByToEdit}/> 
         </form>
+        <div className="sort-field">
+                    <label className="tag" >
+                        <span>Name</span>
+                        <input
+                            type="radio"
+                            name="sortField"
+                            value="name"
+                            checked={filterByToEdit.sortField === 'name'}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label className="tag" >
+                        <span>Price</span>
+                        <input
+                            type="radio"
+                            name="sortField"
+                            value="price"
+                            checked={filterByToEdit.sortField === 'price'}            
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label className="tag" >
+                        <span>Created At</span>
+                        <input
+                            type="radio"
+                            name="sortField"
+                            value="createdAt"
+                            checked={filterByToEdit.sortField === 'createdAt'}                        
+                            onChange={handleChange}
+                        />
+                    </label>
+                </div>
         </section>
     ) 
 }

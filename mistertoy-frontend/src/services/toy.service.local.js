@@ -18,15 +18,22 @@ function query(filterBy = {}) {
     var filteredToys = toys;
     if (filterBy.name) {
       const regExp = new RegExp(filterBy.name, 'i')
-      filteredToys = toys.filter((toy) => regExp.test(toy.name));
+      filteredToys = filteredToys.filter((toy) => regExp.test(toy.name));
     }
     if (filterBy.inStock) {
-      filteredToys = toys.filter((toy) => JSON.stringify(toy.inStock) === (filterBy.inStock));
+      filteredToys = filteredToys.filter((toy) => JSON.stringify(toy.inStock) === (filterBy.inStock));
     }
     if (filterBy.labels && filterBy.labels.length > 0) {
-      filteredToys = toys.filter((toy) =>
+      filteredToys = filteredToys.filter((toy) =>
         filterBy.labels.some((label) => toy?.labels?.includes(label))
       );
+    }
+    if(filterBy.sortField === 'name'){
+      filteredToys = filteredToys.sort((a,b)=>a.name.localeCompare(b.name))
+    }
+    else if(filterBy.sortField === 'price' || 'createdAt'){
+      const {sortField} = filterBy
+      filteredToys = filteredToys.sort((a,b)=>a[sortField]-b[sortField])
     }
     return filteredToys
   });
