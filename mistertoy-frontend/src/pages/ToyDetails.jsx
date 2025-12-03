@@ -19,11 +19,17 @@ export function ToyDetails() {
             })
     }
     if (!toy) return <div>Loading...</div>
+    
     return (
         <section className="toy-details">
             <h1>Toy name: {toy.name}</h1>
             <h5>Toy price: {toy.price}</h5>
             <h5>In Stock: {toy.inStock ? 'yes' : 'no'}</h5>
+            <h5>Labels:</h5>
+            <ul>{toy.labels.map(label=>
+                <li key={label}>{label}</li>
+            )}</ul>
+            <img src={toy.imgUrl}/>
             <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
             <Link to={`/toy`}>Back</Link>
         </section>

@@ -18,7 +18,7 @@ function App() {
           <Route element={<ToyIndex/>} path='/toy'/>
           <Route element={<ToyEdit/>} path='/toy/edit'/>
           <Route element={<ToyEdit/>} path='/toy/edit:toyId'/>
-          <Route element={<ToyDetails/>} path='/toy:toyId'/>
+          <Route element={<ToyDetails/>} path='/toy/:toyId'/>
           </Routes>
         </section>
       </Router>

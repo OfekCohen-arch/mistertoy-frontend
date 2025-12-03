@@ -10,7 +10,7 @@
 
 /* cmps */
 
-
+@import '../style/cmps/toy-preview.css';
 
 .app {
     display: flex;

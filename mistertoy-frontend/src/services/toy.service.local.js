@@ -3,6 +3,7 @@ import { utilService } from "./util.service";
 
 const STORAGE_KEY = "toyDB";
 
+
 export const toyService = {
   query,
   getById,
@@ -42,6 +43,7 @@ function save(toy) {
   if (toy._id) {
     return storageService.put(STORAGE_KEY, toy);
   } else {
+    toy.createdAt = Date.now()
     return storageService.post(STORAGE_KEY, toy);
   }
 }
@@ -59,3 +61,26 @@ function getEmptyToy() {
 function getDefaultFilter() {
   return { name: "", inStock: "", labels: [] };
 }
+function  _createToys(){
+  const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
+'Outdoor', 'Battery Powered']
+for (let i = 0; i < 10; i++) {
+  const toy = {
+    name: utilService.makeLorem(2),
+    imgUrl: 'src/assets/react.svg',
+    price: utilService.getRandomIntInclusive(50,200),
+    labels: [labels[utilService.getRandomIntInclusive(0,labels.length-1)]],
+    inStock: (i % 2 === 0) ? true : false
+  }
+  save(toy)
+}
+}
+/*const toy = {
+_id: 't101',
+name: 'Talking Doll',
+imgUrl: 'hardcoded-url-for-now',
+price: 123,
+labels: ['Doll', 'Battery Powered', 'Baby'],
+createdAt: 1631031801011,
+inStock: true,
+}*/
