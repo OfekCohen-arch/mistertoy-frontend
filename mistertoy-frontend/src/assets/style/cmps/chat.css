@@ -1,0 +1,36 @@
+.chat{
+ position: fixed;
+ bottom: 0;
+ right: 0;
+ height: 50vh;
+ width: 25vw; 
+ border: solid 1px black;
+ color: black;
+ text-align: start;  
+}
+.chat li{
+    padding: 5px;
+}
+.chat li:nth-child(odd){
+    background-color: gray;
+}
+.send-container{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    border: 1px black solid;
+}
+.send-container input{
+flex-grow: 5;
+}
+.send-container button{
+    flex-grow: 1;
+    background-color: aqua;
+    border-radius: 0;
+}
+.chat-btn{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
