@@ -1,19 +1,19 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { loadToys, removeToy } from "../store/actions/toy.actions.js";
+import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions.js";
 import { ToyList } from "../cmps/ToyList.jsx";
 import { Link } from "react-router-dom";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
-import { LabelChooser } from "../cmps/LabelChooser.jsx";
+import { ToyFilter } from "../cmps/ToyFilter.jsx";
 
 export function ToyIndex(){
     const toys = useSelector((storeState)=>storeState.toyModule.toys)
+    const filterBy = useSelector((storeState)=>storeState.toyModule.filterBy)
     const isLoading = useSelector((storeState)=>storeState.toyModule.isLoading)
-    const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
-                 'Outdoor', 'Battery Powered']
+
     useEffect(()=>{
-    loadToys()
-    },[])
+    loadToys(filterBy)
+    },[filterBy])
 
     function onRemoveToy(toyId){
     removeToy(toyId)
@@ -25,13 +25,19 @@ export function ToyIndex(){
     })
     }
 
-    if(isLoading) return 'Loading...'
+    
     return(
+
         <>
         <h3>Mister Toys</h3>
-        <LabelChooser labels={labels}/>
+         <ToyFilter filterBy={filterBy} onSetFilter={setFilterBy}/>
         <Link to='/toy/edit'>Add Toy</Link>
-        <ToyList toys={toys} onRemoveToy={onRemoveToy}/>
+       {!isLoading ?
+       <ToyList toys={toys} onRemoveToy={onRemoveToy}/>
+       :
+       'Loading...'
+       }
+        
         </>
     )
 }

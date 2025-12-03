@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react"
 
-export function LabelChooser({ labels, filterBy={}, onSetFilterBy=()=>{} }) {
+export function LabelChooser({ labels, filterBy, onSetFilterBy }) {
     const labelMap = {}
     labels.forEach(label => labelMap[label] = false)
 
@@ -12,7 +12,8 @@ export function LabelChooser({ labels, filterBy={}, onSetFilterBy=()=>{} }) {
                 .filter(label => selectedLabels[label]) })
     }, [selectedLabels])
 
-    function resetLabels() {
+    function resetLabels(ev) {
+        ev.preventDefault()
         labels.forEach(label => labelMap[label] = false)
         setSelectedLabels(labelMap)
     }

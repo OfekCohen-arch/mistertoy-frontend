@@ -17,10 +17,11 @@ function query(filterBy = {}) {
   return storageService.query(STORAGE_KEY).then((toys) => {
     var filteredToys = toys;
     if (filterBy.name) {
-      filteredToys = toys.filter((toy) => RegExp.test(toy.name));
+      const regExp = new RegExp(filterBy.name, 'i')
+      filteredToys = toys.filter((toy) => regExp.test(toy.name));
     }
     if (filterBy.inStock) {
-      filteredToys = toys.filter((toy) => toy.inStock === filterBy.inStock);
+      filteredToys = toys.filter((toy) => JSON.stringify(toy.inStock) === (filterBy.inStock));
     }
     if (filterBy.labels && filterBy.labels.length > 0) {
       filteredToys = toys.filter((toy) =>
@@ -52,7 +53,7 @@ function getEmptyToy() {
   return {
     name: "",
     imgUrl: "src/assets/react.svg",
-    price: "",
+    price: 0,
     labels: [],
     inStock: true,
   };

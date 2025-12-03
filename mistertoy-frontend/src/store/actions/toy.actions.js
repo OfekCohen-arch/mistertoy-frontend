@@ -3,8 +3,7 @@ import { showSuccessMsg } from '../../services/event-bus.service.js'
 import {SET_TOYS,REMOVE_TOY,UPDATE_TOY,ADD_TOY,SET_FILTER_BY,SET_IS_LOADING} from '../reducers/toy.reducer.js'
 import {store} from '../store.js'
 
-export function loadToys() {
-    const filterBy = store.getState().toyModule.filterBy
+export function loadToys(filterBy) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.query(filterBy)
         .then(toys => {
@@ -46,5 +45,6 @@ export function saveToy(toy) {
 }
 
 export function setFilterBy(filterBy) {
-    store.dispatch({ type: SET_FILTER_BY, filterBy })
+    
+    store.dispatch({ type: SET_FILTER_BY, filterBy})
 }
