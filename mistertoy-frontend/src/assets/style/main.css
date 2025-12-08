@@ -15,11 +15,14 @@
 @import '../style/cmps/toy-list.css';
 @import '../style/cmps/chat.css';
 @import '../style/cmps/app-header.css';
+@import '../style/cmps/my-chart.css';
+@import '../style/cmps/dashboard.css';
 
 .app {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-width: 100vw;
 }
 
 .app > * {

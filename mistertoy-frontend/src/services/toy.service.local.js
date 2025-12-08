@@ -11,6 +11,9 @@ export const toyService = {
   save,
   getDefaultFilter,
   getEmptyToy,
+  getLabels,
+  getLabelsStats,
+  getToysInStockStats
 };
 
 function query(filterBy = {}) {
@@ -82,6 +85,49 @@ for (let i = 0; i < 10; i++) {
   }
   save(toy)
 }
+}
+function getLabels(){
+  return ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
+'Outdoor', 'Battery Powered']
+}
+function getLabelsStats(){
+  return storageService.query(STORAGE_KEY)
+  .then(toys=>{
+    const toysCountByLabelMap = _getToysCountByLabelMap(toys)
+    const data = Object.keys(toysCountByLabelMap).map(label=>toysCountByLabelMap[label])
+    return data
+  }
+  )
+}
+function getToysInStockStats(){
+  return storageService.query(STORAGE_KEY)
+  .then(toys=>{
+    const toysInStockByLabelMap = _getToysInStockByLabelMap(toys)
+    const data = Object.keys(toysInStockByLabelMap).map(label=>toysInStockByLabelMap[label])
+    return data
+  })
+}
+function _getToysCountByLabelMap(toys){
+  const labels = toyService.getLabels()
+  const labelsMap = {}
+  labels.forEach(label=> labelsMap[label] = 0)
+const toysCountByLabelMap = toys.reduce((map,toy)=>{
+ const toyLabels = toy.labels
+ toyLabels.forEach(label=>map[label]++)
+ return map
+},labelsMap)
+return toysCountByLabelMap
+}
+function _getToysInStockByLabelMap(toys){
+  const labels = toyService.getLabels()
+  const labelsMap = {}
+  labels.forEach(label=> labelsMap[label] = 0)
+const toysInStockByLabelMap = toys.reduce((map,toy)=>{
+ const toyLabels = toy.labels
+ if(toy.inStock) toyLabels.forEach(label=>map[label]++)
+ return map
+},labelsMap)
+return toysInStockByLabelMap
 }
 /*const toy = {
 _id: 't101',

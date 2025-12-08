@@ -5,12 +5,13 @@ import { ToyList } from "../cmps/ToyList.jsx";
 import { Link } from "react-router-dom";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { ToyFilter } from "../cmps/ToyFilter.jsx";
+import { toyService } from "../services/toy.service.local.js";
 
 export function ToyIndex(){
     const toys = useSelector((storeState)=>storeState.toyModule.toys)
     const filterBy = useSelector((storeState)=>storeState.toyModule.filterBy)
     const isLoading = useSelector((storeState)=>storeState.toyModule.isLoading)
-
+    const labels = toyService.getLabels()
     useEffect(()=>{
     loadToys(filterBy)
     },[filterBy])
@@ -30,7 +31,7 @@ export function ToyIndex(){
 
         <section>
         <h3>Mister Toys</h3>
-         <ToyFilter filterBy={filterBy} onSetFilter={setFilterBy}/>
+         <ToyFilter filterBy={filterBy} onSetFilter={setFilterBy} labels={labels}/>
         <button><Link to='/toy/edit'>Add Toy</Link></button><br/>
        {!isLoading ?
        <ToyList toys={toys} onRemoveToy={onRemoveToy}/>

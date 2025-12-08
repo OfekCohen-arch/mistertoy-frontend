@@ -9,8 +9,7 @@ import {useConfirmTabClose} from "../hooks/useConfirmTabClose.js"
 export function ToyEdit() {
   const { toyId } = useParams()
   const [toy, setToy] = useState(toyService.getEmptyToy())
-  const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
-    'Outdoor', 'Battery Powered']
+  const labels = toyService.getLabels()
  
   const isOnline = useOnlineStatus()
   const setHasUnsavedChanges = useConfirmTabClose()

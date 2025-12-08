@@ -5,6 +5,7 @@
     padding: 0 35px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .main-header > a {
@@ -17,7 +18,11 @@
     letter-spacing: 1.6px;
     flex-grow: 1;
 }
-
+.main-header .main-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .main-header .main-nav .link {
     padding: 0 16px;
     cursor: pointer;

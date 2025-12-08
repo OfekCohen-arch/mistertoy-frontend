@@ -5,10 +5,10 @@ export function AppHeader(){
     return(
         <header className="main-header" title='Look At ME!' >
             
-            <ul className="main-nav flex clean-list">
-                <Link to="/"><div className="link">Home</div></Link>
-                <NavLink to="/toy" className="link flex align-center">Toys</NavLink>
-                
+            <ul className="main-nav">
+                <NavLink to="/"><div className="link">Home</div></NavLink>
+                <NavLink to="/toy" className="link">Toys</NavLink>
+                <NavLink to="/dashboard" className='link'>Dashboard</NavLink>
             </ul>
         </header >
     )

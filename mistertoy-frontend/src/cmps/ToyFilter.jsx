@@ -2,11 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { utilService } from "../services/util.service.js";
 import { LabelChooser } from "./LabelChooser";
 
-export function ToyFilter({filterBy,onSetFilter}){
+export function ToyFilter({filterBy,onSetFilter,labels}){
 const [filterByToEdit,setFilterByToEdit] = useState({...filterBy})
 onSetFilter = useRef(utilService.debounce(onSetFilter,300))
-const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
-'Outdoor', 'Battery Powered']
 useEffect(()=>{
 onSetFilter.current(filterByToEdit)
 },[filterByToEdit])
