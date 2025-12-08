@@ -1,0 +1,24 @@
+.main-header {
+    height: 70px;
+    background-color: #595959;
+    color: #fff;
+    padding: 0 35px;
+    display: flex;
+    align-items: center;
+}
+
+.main-header > a {
+    flex-grow: 1;
+}
+
+.main-header .logo {
+    font-family: ubuntu;
+    font-size: 22px;
+    letter-spacing: 1.6px;
+    flex-grow: 1;
+}
+
+.main-header .main-nav .link {
+    padding: 0 16px;
+    cursor: pointer;
+}

@@ -14,6 +14,7 @@
 @import '../style/cmps/toy-edit.css';
 @import '../style/cmps/toy-list.css';
 @import '../style/cmps/chat.css';
+@import '../style/cmps/app-header.css';
 
 .app {
     display: flex;
