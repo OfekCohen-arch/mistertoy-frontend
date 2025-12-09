@@ -5,10 +5,13 @@ import { saveToy } from "../store/actions/toy.actions.js";
 import { showSuccessMsg } from "../services/event-bus.service.js";
 import { useOnlineStatus } from "../hooks/useOnlineStatus.js";
 import {useConfirmTabClose} from "../hooks/useConfirmTabClose.js"
+import {Button} from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
 
 export function ToyEdit() {
   const { toyId } = useParams()
   const [toy, setToy] = useState(toyService.getEmptyToy())
+  const [isLoading,setIsLoading] = useState(false)
   const labels = toyService.getLabels()
  
   const isOnline = useOnlineStatus()
@@ -63,9 +66,11 @@ export function ToyEdit() {
 
   function onSaveToy(ev) {
     ev.preventDefault()
+    setIsLoading(true)
     saveToy(toy)
       .then(
         (savedToy) => {
+          setIsLoading(false)
           showSuccessMsg('Toy Saved (id:', savedToy._id, ')')
           navigate('/toy')
         }
@@ -93,12 +98,12 @@ export function ToyEdit() {
                 type="checkbox" />
               <span>{label}</span>
             </label>)}
-          <button onClick={resetLabels}>Clear Labels</button>
+          <Button variant="Clear Labels" onClick={resetLabels}>Clear Labels</Button>
         </fieldset>
 
         <label htmlFor="inStock">in stock:</label>
         <input name="inStock" type="checkbox" checked={toy.inStock ?? true} value={toy.inStock ?? true} onChange={handleChange} />
-        <button>Save</button>
+        <Button variant="save" type="submit" loading={isLoading} startIcon={<SaveIcon/>}>Save</Button>
         <Link to='/toy'>Cancel</Link>
       </form>
       <h1>{isOnline? '✅ Online' : '❌ Disconnected'}</h1>

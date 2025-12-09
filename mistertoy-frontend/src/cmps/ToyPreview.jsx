@@ -1,4 +1,6 @@
+import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Delete,SendOutlined } from "@mui/icons-material";
 
 export function ToyPreview({toy, onRemoveToy}){
 
@@ -10,7 +12,7 @@ export function ToyPreview({toy, onRemoveToy}){
           <hr/>
           <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
           <Link to={`/toy/${toy._id}`}>Details</Link>
-          <button onClick={()=>{onRemoveToy(toy._id)}}>Remove</button>
+          <Button variant="remove" startIcon={<Delete/>} onClick={()=>{onRemoveToy(toy._id)}}>Remove</Button>
         </article>
     )
 }

@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { ToyFilter } from "../cmps/ToyFilter.jsx";
 import { toyService } from "../services/toy.service.local.js";
+import { Button } from "@mui/material";
+
 
 export function ToyIndex(){
     const toys = useSelector((storeState)=>storeState.toyModule.toys)
@@ -32,13 +34,12 @@ export function ToyIndex(){
         <section>
         <h3>Mister Toys</h3>
          <ToyFilter filterBy={filterBy} onSetFilter={setFilterBy} labels={labels}/>
-        <button><Link to='/toy/edit'>Add Toy</Link></button><br/>
+        <Button variant="Add Toy"><Link to='/toy/edit'>Add Toy</Link></Button><br/>
        {!isLoading ?
        <ToyList toys={toys} onRemoveToy={onRemoveToy}/>
        :
        'Loading...'
        }
-        
         </section>
     )
 }
