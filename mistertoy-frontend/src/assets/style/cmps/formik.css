@@ -1,0 +1,15 @@
+
+.formik {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    width: 60%;
+    align-items: center;
+    max-width: 300px;
+    gap: 10px;
+
+}
+
+.formik>* {
+    width: 100%;
+}

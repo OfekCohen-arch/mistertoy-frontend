@@ -17,6 +17,7 @@
 @import '../style/cmps/app-header.css';
 @import '../style/cmps/my-chart.css';
 @import '../style/cmps/dashboard.css';
+@import '../style/cmps/formik.css';
 
 .app {
     display: flex;
