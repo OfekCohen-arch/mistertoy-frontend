@@ -21,7 +21,7 @@ export function ToyEdit() {
   const [toy, setToy] = useState(toyService.getEmptyToy())
   const [isLoading, setIsLoading] = useState(false)
   const labels = toyService.getLabels()
-
+  const [selectedImgSrc,setSelectedImgSrc] = useState(toy.imgUrl) 
   const isOnline = useOnlineStatus()
   const setHasUnsavedChanges = useConfirmTabClose()
 
@@ -57,6 +57,11 @@ export function ToyEdit() {
       case 'checkbox':
         value = target.checked
         break
+      case 'file':
+        loadImageFromInput(target)
+        console.log(value);
+        
+        break
 
       default:
         break
@@ -71,6 +76,13 @@ export function ToyEdit() {
       setToy((prevToy) => ({ ...prevToy, labels: toy.labels.filter(label => label !== name) }))
     }
   }
+  function loadImageFromInput(target) {
+    const reader = new FileReader()
+    reader.onload = function (event) {
+        setSelectedImgSrc(event.target.result)  
+    }
+    reader.readAsDataURL(target.files[0])
+}
 
   function onSaveToy(ev) {
     ev.preventDefault()
@@ -127,6 +139,13 @@ export function ToyEdit() {
             </label>)}
           <Button variant="Clear Labels" onClick={resetLabels}>Clear Labels</Button>
         </fieldset>
+        <label className="img-picker">
+          +
+          <input type="file" name="imgUrl" onChange={handleChange}/>
+        </label>
+        <div className="selected-img-container">
+        <img src={selectedImgSrc || ''}/>
+        </div>
         <Link to='/toy'>Cancel</Link>
             <Button loading={isLoading}type="submit">Submit</Button>
           </Form>

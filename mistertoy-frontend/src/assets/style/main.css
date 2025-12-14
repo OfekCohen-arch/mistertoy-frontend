@@ -18,6 +18,9 @@
 @import '../style/cmps/my-chart.css';
 @import '../style/cmps/dashboard.css';
 @import '../style/cmps/formik.css';
+@import '../style/cmps/google-map.css';
+@import '../style/cmps/img-picker.css';
+@import '../style/cmps/selected-img-container.css';
 
 .app {
     display: flex;

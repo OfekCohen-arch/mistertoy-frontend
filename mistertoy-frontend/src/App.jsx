@@ -10,6 +10,7 @@ import { ToyEdit } from './pages/ToyEdit.jsx'
 import { Home } from './pages/Home.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
+import { About } from './pages/About.jsx'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <main>
             <Routes>
               <Route element={<Home />} path='/' />
+              <Route element={<About/>} path='/about'/>
               <Route element={<Dashboard />} path='/dashboard' />
               <Route element={<ToyIndex />} path='/toy' />
               <Route element={<ToyEdit />} path='/toy/edit' />
