@@ -127,8 +127,8 @@ export function ToyEdit() {
             </label>)}
           <Button variant="Clear Labels" onClick={resetLabels}>Clear Labels</Button>
         </fieldset>
-        <Link to='/toy'>Cancel</Link>
-            <Button loading={isLoading}type="submit">Submit</Button>
+        <Link to='/toy'> <Button style={{border:'1px solid black'}}>Cancel</Button></Link>
+            <Button style={{border:'1px solid black'}} loading={isLoading}type="submit">Submit</Button>
           </Form>
         )}
       </Formik>

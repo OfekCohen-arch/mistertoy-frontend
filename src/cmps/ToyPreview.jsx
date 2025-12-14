@@ -8,13 +8,21 @@ export function ToyPreview({toy, onRemoveToy}){
         <article className="toy-preview">
           <h4>{toy.name}</h4>  
           <h6>Price: {toy.price}$</h6>
+          <h6 className={toy.inStock ? 'in-stock' : 'not-in-stock'}>{toy.inStock? 'In stock': 'Not in stock'}</h6>
           <div className="img-container">
           <img src={toy.imgUrl}/>
           </div>
           <hr/>
-          <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
-          <Link to={`/toy/${toy._id}`}>Details</Link>
-          <Button variant="remove" startIcon={<Delete/>} onClick={()=>{onRemoveToy(toy._id)}}>Remove</Button>
+          <div className="buttons-container">
+            
+          <Link  to={`/toy/edit/${toy._id}`}>
+          <Button style={{border:'1px solid black'}}>Edit</Button>
+          </Link> &nbsp;
+          <Link  to={`/toy/${toy._id}`}>
+          <Button style={{border:'1px solid black'}}>Details</Button>
+          </Link>
+          <Button style={{border:'1px solid black'}} variant="remove" startIcon={<Delete/>} onClick={()=>{onRemoveToy(toy._id)}}>Remove</Button>
+          </div>
         </article>
     )
 }

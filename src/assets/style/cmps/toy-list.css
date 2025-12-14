@@ -1,10 +1,12 @@
 .toy-list {
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4,minmax(200px,1fr));
     padding-left: 20px;
     gap: 0.6em;
     margin-block: 0.6em;
+    justify-content: center;
+    position: relative;
 }
 
 .toy-list li {
@@ -13,4 +15,9 @@
     justify-content: space-around;
     background-color: var(--clr1bg);
     padding: 0.65em;
+}
+.toy-list p{
+    position: absolute;
+    right: 50vw;
+    font-size: 3rem;
 }

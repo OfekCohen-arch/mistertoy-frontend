@@ -10,3 +10,7 @@
 .toy-edit form input {
     margin-bottom: 1em;
 }
+.toy-edit fieldset{
+    display: flex;
+    flex-direction: column;
+}

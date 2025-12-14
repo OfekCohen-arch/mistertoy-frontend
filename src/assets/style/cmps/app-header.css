@@ -6,6 +6,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .main-header > a {
@@ -26,4 +27,9 @@
 .main-header .main-nav .link {
     padding: 0 16px;
     cursor: pointer;
+}
+.main-header p{
+    position: absolute;
+    top: 5px;
+    right: 15px;
 }

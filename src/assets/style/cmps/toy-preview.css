@@ -1,3 +1,14 @@
 .toy-preview{
     border: 1px solid black;
 }
+.buttons-container{
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+.in-stock{
+    color: green;
+}
+.not-in-stock{
+    color: red;
+}
