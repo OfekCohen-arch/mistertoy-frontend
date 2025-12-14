@@ -1,9 +1,9 @@
-.selected-img-container{
+.img-container{
     aspect-ratio: 1/1;
     width: 100px;
-    border: 1px solid black;
+    
 }
-.selected-img-container img{
+.img-container img{
     width: 100%;
     height: 100%;
     object-fit: cover;

@@ -19,7 +19,7 @@ function handleChange({ target }) {
         <section className="toy-filter">
         <form>
             <label htmlFor="name">Name:</label>
-            <input id="name" name="name" type="text" onChange={handleChange} value={filterByToEdit.name}/>
+            <input id="name" name="name" placeholder="search" type="search" onChange={handleChange} value={filterByToEdit.name}/>
 
             <label htmlFor="inStock">In Stock:</label>
             <select id="inStock" name="inStock" onChange={handleChange}>

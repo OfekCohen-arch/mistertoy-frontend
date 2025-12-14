@@ -1,7 +1,8 @@
 import { Link,NavLink } from "react-router-dom";
+import { useOnlineStatus } from "../hooks/useOnlineStatus.js";
 
 export function AppHeader(){
-
+const isOnline = useOnlineStatus()
     return(
         <header className="main-header" title='Look At ME!' >
             
@@ -11,6 +12,7 @@ export function AppHeader(){
                 <NavLink to="/dashboard" className='link'>Dashboard</NavLink>
                 <NavLink to="/about" className='link'>About</NavLink>
             </ul>
+            <p>{isOnline ? '✅ Online' : '❌ Disconnected'}</p>
         </header >
     )
 }

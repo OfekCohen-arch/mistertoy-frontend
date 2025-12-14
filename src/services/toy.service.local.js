@@ -3,7 +3,6 @@ import { utilService } from "./util.service";
 
 const STORAGE_KEY = "toyDB";
 
-
 export const toyService = {
   query,
   getById,
@@ -62,7 +61,7 @@ function save(toy) {
 function getEmptyToy() {
   return {
     name: "",
-    imgUrl: "src/assets/react.svg",
+    imgUrl: "https://robohash.org/123",
     price: 0,
     labels: [],
     inStock: true,
@@ -78,7 +77,7 @@ function  _createToys(){
 for (let i = 0; i < 10; i++) {
   const toy = {
     name: utilService.makeLorem(2),
-    imgUrl: 'src/assets/react.svg',
+    imgUrl: "https://robohash.org/123",
     price: utilService.getRandomIntInclusive(50,200),
     labels: [labels[utilService.getRandomIntInclusive(0,labels.length-1)]],
     inStock: (i % 2 === 0) ? true : false
