@@ -5,7 +5,7 @@ import { saveToy } from "../store/actions/toy.actions.js";
 import { showSuccessMsg } from "../services/event-bus.service.js";
 import { useOnlineStatus } from "../hooks/useOnlineStatus.js";
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
-import { Button ,TextField} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -29,15 +29,16 @@ export function ToyEdit() {
     if (toyId) loadToy()
   }, [])
 
-  function loadToy() {
-    toyService.getById(toyId)
-      .then((toy) => {
-        setToy(toy)
-      })
-      .catch(err => {
-        console.log('Had issues in toy edit', err)
-        navigate('/toy')
-      })
+  async function loadToy() {
+    try {
+      const toy = await toyService.getById(toyId)
+      setToy(toy)
+    }
+    catch (err) {
+      console.log('Had issues in toy edit', err)
+      navigate('/toy')
+    }
+
   }
   function resetLabels(ev) {
     ev.preventDefault()
@@ -70,7 +71,7 @@ export function ToyEdit() {
       setToy((prevToy) => ({ ...prevToy, labels: toy.labels.filter(label => label !== name) }))
     }
   }
- 
+
 
   function onSaveToy(ev) {
     ev.preventDefault()
@@ -102,33 +103,33 @@ export function ToyEdit() {
       >
         {({ errors, touched, dirty }) => (
           <Form className='formik'
-          onSubmit={onSaveToy}
+            onSubmit={onSaveToy}
           >
             {/* {console.log(dirty)} */}
             <Field as={CustomInput} value={toy.name || ''} label="name" name="name" onChange={handleChange} />
             {errors.name && touched.name && (
               <div className='errors'>{errors.firstName}</div>
             )}
-            <Field as={CustomInput} value={toy.price || 0} label="price" name="price" type='number' onChange={handleChange}/>
+            <Field as={CustomInput} value={toy.price || 0} label="price" name="price" type='number' onChange={handleChange} />
             {errors.price && touched.price && (
               <div className='errors'>{errors.price}</div>
             )}
             <label htmlFor="inStock">In Stock</label>
-            <Field value={toy.inStock || true} checked={toy.inStock ?? true} onChange={handleChange} type='checkbox' label='In stock' name='inStock'/>
+            <Field value={toy.inStock || true} checked={toy.inStock ?? true} onChange={handleChange} type='checkbox' label='In stock' name='inStock' />
             <fieldset className="label-chooser">
-          {labels.map(label =>
-            <label key={label} className="tag">
-              <input
-                onChange={handleChangeLabels}
-                name={label}
-                checked={toy.labels.includes(label) || false}
-                type="checkbox" />
-              <span>{label}</span>
-            </label>)}
-          <Button variant="Clear Labels" onClick={resetLabels}>Clear Labels</Button>
-        </fieldset>
-        <Link to='/toy'> <Button style={{border:'1px solid black'}}>Cancel</Button></Link>
-            <Button style={{border:'1px solid black'}} loading={isLoading}type="submit">Submit</Button>
+              {labels.map(label =>
+                <label key={label} className="tag">
+                  <input
+                    onChange={handleChangeLabels}
+                    name={label}
+                    checked={toy.labels.includes(label) || false}
+                    type="checkbox" />
+                  <span>{label}</span>
+                </label>)}
+              <Button variant="Clear Labels" onClick={resetLabels}>Clear Labels</Button>
+            </fieldset>
+            <Link to='/toy'> <Button style={{ border: '1px solid black' }}>Cancel</Button></Link>
+            <Button style={{ border: '1px solid black' }} loading={isLoading} type="submit">Submit</Button>
           </Form>
         )}
       </Formik>
@@ -138,12 +139,12 @@ export function ToyEdit() {
 
 }
 function CustomInput(props) {
-    // console.log('props:', props)
-    return (
-        <TextField
-            label={props.label}
-            variant="outlined"
-            {...props}
-        />
-    )
+  // console.log('props:', props)
+  return (
+    <TextField
+      label={props.label}
+      variant="outlined"
+      {...props}
+    />
+  )
 }

@@ -26,13 +26,16 @@ export function ToyDetails() {
     function open(){
         setIsOpen(true)
     }
-    function loadToy() {
-        toyService.getById(toyId)
-            .then(toy => setToy(toy))
-            .catch(err => {
+    async function loadToy() {
+        try{
+         const toy = await toyService.getById(toyId)   
+         setToy(toy)
+        }
+        
+        catch(err){
                 console.log('Had issues in toy details', err)
                 navigate('/toy')
-            })
+            }
     }
     if (!toy) return <div>Loading...</div>
     

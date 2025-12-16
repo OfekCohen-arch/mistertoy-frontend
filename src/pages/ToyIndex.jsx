@@ -20,13 +20,13 @@ export function ToyIndex(){
 
     function onRemoveToy(toyId){
         if(!confirm('Are you sure?')) return
-    removeToy(toyId)
-    .then(
-        ()=> {showSuccessMsg('The Toy (id: ',toyId,') removed!')}
-    )
-    .catch((err)=>{
-     showErrorMsg('Cannot remove toy')
-    })
+        try{
+            removeToy(toyId)
+            showSuccessMsg('The Toy (id: ',toyId,') removed!')
+        }
+        catch{
+          showErrorMsg('Cannot remove toy')  
+        }
     }
 
     
