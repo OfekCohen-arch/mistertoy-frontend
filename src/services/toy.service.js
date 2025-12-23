@@ -1,6 +1,5 @@
 import { httpService } from "./http.service.js";
 import { utilService } from "./util.service.js";
-
 const STORAGE_KEY = 'toy'
 export const toyService = {
     query,

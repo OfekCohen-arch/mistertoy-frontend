@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { MyChart } from '../cmps/MyChart.jsx'
-import {toyService} from '../services/toy.service.local.js'
+import {toyService} from '../services/toy.service.js'
 export function Dashboard(){
     const labels = toyService.getLabels()
     const [labelsStats,setLabelsStats] = useState([])

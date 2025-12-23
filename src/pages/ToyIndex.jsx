@@ -5,7 +5,7 @@ import { ToyList } from "../cmps/ToyList.jsx";
 import { Link } from "react-router-dom";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { ToyFilter } from "../cmps/ToyFilter.jsx";
-import { toyService } from "../services/toy.service.local.js";
+import { toyService } from "../services/toy.service.js";
 import { Button } from "@mui/material";
 
 
