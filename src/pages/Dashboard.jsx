@@ -1,17 +1,26 @@
 import { useEffect, useState } from 'react'
 import { MyChart } from '../cmps/MyChart.jsx'
 import {toyService} from '../services/toy.service.js'
-export function Dashboard(){
+export  function Dashboard(){
     const labels = toyService.getLabels()
     const [labelsStats,setLabelsStats] = useState([])
     const [inStockStats,setInStockStats] = useState([])
     useEffect(()=>{
-        toyService.getLabelsStats()
-        .then(setLabelsStats)
-        toyService.getToysInStockStats()
-        .then(setInStockStats)
+        loadStats()
     })
-    
+    async function loadStats() {
+        try{
+        const labelsStats = await toyService.getLabelsStats()
+        setLabelsStats(labelsStats)
+        const toysInStockStats = await toyService.getToysInStockStats()
+        setInStockStats(toysInStockStats)
+        }
+        catch{
+            console.log('cannot load stats');
+            
+        }
+        
+    }
     return(
        <section className='dashboard'>
         <MyChart labels={labels} labelsCounts={labelsStats} title={'Count by labels'}/>
