@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions.js";
 import { ToyList } from "../cmps/ToyList.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { ToyFilter } from "../cmps/ToyFilter.jsx";
 import { toyService } from "../services/toy.service.js";
@@ -14,17 +14,19 @@ export function ToyIndex(){
     const filterBy = useSelector((storeState)=>storeState.toyModule.filterBy)
     const isLoading = useSelector((storeState)=>storeState.toyModule.isLoading)
     const labels = toyService.getLabels()
+    const navigate = useNavigate()
     useEffect(()=>{
     loadToys(filterBy)
     },[filterBy])
 
-    function onRemoveToy(toyId){
+   async function onRemoveToy(toyId){
         if(!confirm('Are you sure?')) return
         try{
-            removeToy(toyId)
+            await removeToy(toyId)
             showSuccessMsg('The Toy (id: ',toyId,') removed!')
         }
         catch{
+          Swal.fire('Only admin can remove toys!')
           showErrorMsg('Cannot remove toy')  
         }
     }

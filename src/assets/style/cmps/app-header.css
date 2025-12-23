@@ -28,7 +28,7 @@
     padding: 0 16px;
     cursor: pointer;
 }
-.main-header p{
+.main-header .isOnline{
     position: absolute;
     top: 5px;
     right: 15px;

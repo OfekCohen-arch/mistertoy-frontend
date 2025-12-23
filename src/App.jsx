@@ -11,6 +11,7 @@ import { Home } from './pages/Home.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
 import { About } from './pages/About.jsx'
+import { LoginSignup } from './pages/LoginSignup.jsx'
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
               <Route element={<ToyEdit />} path='/toy/edit' />
               <Route element={<ToyEdit />} path='/toy/edit/:toyId' />
               <Route element={<ToyDetails />} path='/toy/:toyId' />
+              <Route element={<LoginSignup/>} path='/login'/>
             </Routes>
           </main>
         </section>

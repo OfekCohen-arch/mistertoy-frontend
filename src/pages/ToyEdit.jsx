@@ -73,17 +73,20 @@ export function ToyEdit() {
   }
 
 
-  function onSaveToy(ev) {
+  async function onSaveToy(ev) {
     ev.preventDefault()
     setIsLoading(true)
-    saveToy(toy)
-      .then(
-        (savedToy) => {
-          setIsLoading(false)
+    try{
+     const savedToy = await saveToy(toy)
+     setIsLoading(false)
           showSuccessMsg('Toy Saved (id:', savedToy._id, ')')
           navigate('/toy')
-        }
-      )
+    }
+    catch(err){
+     Swal.fire('Only admin can add/edit toys!')
+          navigate('/toy')
+    }
+  
   }
 
 

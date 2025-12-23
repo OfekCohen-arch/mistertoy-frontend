@@ -23,9 +23,9 @@ export async function loadToys(filterBy) {
   }
 }
 
-export function removeToy(toyId) {
+export async function removeToy(toyId) {
   try {
-    toyService.remove(toyId);
+   await toyService.remove(toyId);
     store.dispatch({ type: REMOVE_TOY, toyId });
   }
    catch (err) {
