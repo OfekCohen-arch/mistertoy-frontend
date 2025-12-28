@@ -47,7 +47,7 @@ function handleChange({ target }) {
                             type="radio"
                             name="sortField"
                             value="price"
-                            checked={filterByToEdit.sortField === 'price'}            
+                            checked={filterByToEdit.sortField === 'price'}         
                             onChange={handleChange}
                         />
                     </label>

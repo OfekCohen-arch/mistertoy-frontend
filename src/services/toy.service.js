@@ -6,6 +6,7 @@ export const toyService = {
   getById,
   remove,
   save,
+  addMsg,
   getEmptyToy,
   getDefaultFilter,
   getLabels,
@@ -30,6 +31,9 @@ async function save(toy) {
     savedToy = await httpService.post("toy", toy);
   }
   return savedToy;
+}
+async function addMsg(toyId,msg){
+  return httpService.post(`toy/${toyId}/msg`,msg)
 }
 function getEmptyToy() {
   return {
