@@ -1,0 +1,17 @@
+.review-list{
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4,minmax(200px,1fr));
+    padding-left: 20px;
+    gap: 0.6em;
+    margin-block: 0.6em;
+    justify-content: center;
+    position: relative;
+}
+.review-list li{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: var(--clr1bg);
+    padding: 0.65em;
+}

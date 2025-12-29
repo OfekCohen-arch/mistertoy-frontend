@@ -6,6 +6,7 @@ import {
     SET_FILTER_BY
 } from '../reducers/review.reducer.js'
 import { reviewService } from "../../services/review.service.js";
+import { userService } from "../../services/user.service.js";
 
 
 export async function loadReviews(filterBy) {
@@ -23,8 +24,10 @@ export async function loadReviews(filterBy) {
 }
 export async function addReview(review) {
     try {
+        const userId = await userService.getLoggedInUser()._id
+        review = {...review,userId}
     const savedReview = await reviewService.save(review)
-    store.dispatch({type: ADD_REVIEW,review})
+    store.dispatch({type: ADD_REVIEW,review: savedReview})
     return savedReview
     } catch (error) {
      console.log('cannot save review ',error);

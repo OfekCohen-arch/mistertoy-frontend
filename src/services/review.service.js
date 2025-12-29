@@ -24,9 +24,8 @@ async function save(review){
     var savedReview = await httpService.post('review',review)
     return savedReview
 }
-function getEmptyReview(userId,toyId){
+function getEmptyReview(toyId){
     return{
-        userId: userId,
         toyId: toyId,
         txt:''
     }

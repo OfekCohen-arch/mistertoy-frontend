@@ -20,7 +20,8 @@
 @import '../style/cmps/formik.css';
 @import '../style/cmps/google-map.css';
 @import '../style/cmps/img-container.css';
-
+@import '../style/cmps/review-list.css';
+@import '../style/cmps/review-preview.css';
 .app {
     display: flex;
     flex-direction: column;

@@ -13,6 +13,7 @@ export const toyService = {
   getLabelsStats,
   getToysInStockStats,
 };
+
 async function query(filterBy = {}) {
   return httpService.get(STORAGE_KEY, filterBy);
 }

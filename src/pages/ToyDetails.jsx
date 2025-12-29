@@ -3,16 +3,23 @@ import { toyService } from '../services/toy.service.js'
 import { Link, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { showErrorMsg } from '../services/event-bus.service.js'
-
+import { ReviewList } from '../cmps/ReviewList.jsx'
+import {reviewService} from '../services/review.service.js'
+import {addReview, loadReviews} from '../store/actions/review.actions.js'
 export function ToyDetails() {
     const [toy, setToy] = useState(null)
     const { toyId } = useParams()
     const [msg, setMsg] = useState({ txt: '' })
     const { txt } = msg
     const user = useSelector((storeState) => storeState.userModule.loggedInUser)
+    const reviews = useSelector((storeState) => storeState.reviewModule.reviews)
+    const [reviewToEdit,setReviewToEdit] = useState(reviewService.getEmptyReview(toyId))
     const [isOpen, setIsOpen] = useState(false)
     useEffect(() => {
-        if (toyId) loadToy()
+        if (toyId){ 
+            loadToy()
+            loadReviews({toyId})
+        }
     }, [toyId])
     useEffect(() => {
         function onKeyDown(ev) {
@@ -41,10 +48,15 @@ export function ToyDetails() {
             navigate('/toy')
         }
     }
-    function handleChange(ev) {
+    function handleChangeMsg(ev) {
         const field = ev.target.name
         const value = ev.target.value
         setMsg(msg => ({ ...msg, [field]: value }))
+    }
+    function handleChangeReview(ev){
+     const field = ev.target.name
+     const value = ev.target.value 
+     setReviewToEdit(review=>({...review, [field]: value}))  
     }
     async function onSaveMsg(ev) {
         ev.preventDefault()
@@ -60,6 +72,16 @@ export function ToyDetails() {
             showErrorMsg('Cannot save message')
         }
     }
+    async function onSaveReview(ev) {
+     ev.preventDefault()
+     try{
+        await addReview(reviewToEdit) 
+     }
+     catch(error){
+        Swal.fire('Only logged in user can write a review!')
+     }  
+    }
+    
     if (!toy) return <div>Loading...</div>
 
     return (
@@ -89,11 +111,23 @@ export function ToyDetails() {
                         name='txt'
                         value={txt}
                         required
-                        onChange={handleChange}
+                        onChange={handleChangeMsg}
                     />
                     <button>Send</button>
                 </form>
             </div>}
+            <div style={{border: '1px black solid', margin:'20px'}}>
+                <h3>Add a review</h3>
+            <form method='post' className='formik' onSubmit={onSaveReview}>
+                <input type='text'
+                 name='txt'
+                 placeholder='Write your review here'
+                 onChange={handleChangeReview}
+                 />
+                 <button>Send</button>
+                </form>    
+            </div>
+            <ReviewList reviews={reviews}/>
             <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
             <Link to={`/toy`}>Back</Link>
             <Popup isOpen={isOpen} setIsOpen={open}>
