@@ -31,5 +31,5 @@ function getEmptyReview(toyId){
     }
 }
 function getDefaultFilter(){
-    return {txt:'', toyName:''}
+    return {toyName:'',username:''}
 }

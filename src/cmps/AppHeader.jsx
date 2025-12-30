@@ -15,6 +15,7 @@ const loggedinUser = useSelector((storeState)=>storeState.userModule.loggedInUse
                 <NavLink to="/toy" className="link">Toys</NavLink>
                 <NavLink to="/dashboard" className='link'>Dashboard</NavLink>
                 <NavLink to="/about" className='link'>About</NavLink>
+                <NavLink to="/review" className='link'>Reviews</NavLink>
                 {loggedinUser?<NavLink to='/' className='link' onClick={logout}>Logout</NavLink>:
                 <NavLink to="/login" className='link'>Login</NavLink>
                 }

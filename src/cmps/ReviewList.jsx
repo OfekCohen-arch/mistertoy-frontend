@@ -12,7 +12,7 @@ return(
                )}
                {
                    reviews.length === 0 &&
-                   <p>There are not Reviews yet... Be the first!</p>
+                   <p>No reviews found</p>
                }
            </ul>
 )

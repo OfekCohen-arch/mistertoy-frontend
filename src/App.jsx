@@ -14,6 +14,7 @@ import { About } from './pages/About.jsx'
 import { LoginSignup } from './pages/LoginSignup.jsx'
 import { UserDetails } from './pages/UserDetails.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
+import { ReviewIndex } from './pages/ReviewIndex.jsx'
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
               <Route element={<LoginSignup/>} path='/login'/>
               <Route element={<AdminIndex/>} path='/user'/>
               <Route element={<UserDetails/>} path='/user/:userId'/>
+              <Route element={<ReviewIndex/>} path='/review'/>
             </Routes>
           </main>
         </section>
