@@ -22,6 +22,7 @@
 @import '../style/cmps/img-container.css';
 @import '../style/cmps/review-list.css';
 @import '../style/cmps/review-preview.css';
+@import '../style/cmps/admin-index.css';
 .app {
     display: flex;
     flex-direction: column;

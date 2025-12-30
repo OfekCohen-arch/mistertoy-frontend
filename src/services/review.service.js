@@ -11,8 +11,8 @@ getEmptyReview,
 getDefaultFilter
 }
 
-async function query(){
-    return httpService.get(STORAGE_KEY)
+async function query(filterBy){
+    return httpService.get(STORAGE_KEY,filterBy)
 }
 async function getById(reviewId){
 return httpService.get(`review/${reviewId}`);

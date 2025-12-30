@@ -1,6 +1,8 @@
 import { httpService } from "./http.service.js";
 
 export const userService = {
+  query,
+  getById,
   login,
   signup,
   logout,
@@ -11,6 +13,24 @@ export const userService = {
 const BASE_URL = 'auth/'
 const STORAGE_KEY = 'loggedinUser'
 
+async function query() {
+  try {
+    const users = await httpService.get('user')
+    return users
+  } catch (error) {
+   console.log('cannot load users ',error);
+    throw error
+  }
+}
+async function getById(userId) {
+  try {
+    const user = await httpService.get(`user/${userId}`)
+    return user
+  } catch (error) {
+    console.log('cannot load user ',error);
+    throw error
+  }
+}
 async function login({ username, password }) {
   try {
     const user = await httpService.post(BASE_URL + 'login', {

@@ -1,7 +1,18 @@
 import { userService } from '../../services/user.service.js'
-import { SET_USER } from '../reducers/user.reducer.js'
+import { SET_USER, SET_USERS } from '../reducers/user.reducer.js'
 import { store } from '../store.js'
 
+export async function loadUsers() {
+ try {
+  const users = await userService.query()
+  store.dispatch({type:SET_USERS,users})
+  return users
+ } catch (error) {
+  console.log('User action-> cannot load users ',error);
+  throw error
+ } 
+}
+ 
 export async function login(credentials) {
   try {
     const user = await userService.login(credentials)

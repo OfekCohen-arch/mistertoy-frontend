@@ -18,6 +18,8 @@ const loggedinUser = useSelector((storeState)=>storeState.userModule.loggedInUse
                 {loggedinUser?<NavLink to='/' className='link' onClick={logout}>Logout</NavLink>:
                 <NavLink to="/login" className='link'>Login</NavLink>
                 }
+                 {loggedinUser && loggedinUser.isAdmin && <NavLink to='/user' className='link'>Users</NavLink>}
+                
              
             </ul>
             <p className="isOnline">{isOnline ? '✅ Online' : '❌ Disconnected'}</p>
