@@ -19,9 +19,9 @@ export function ReviewFilter({ filterBy, onSetFilterBy }) {
         <section>
             <form className="formik">
             <label htmlFor="username">Username:</label>
-            <input type="text" name="username" onChange={handleChange} />
+            <input type="text" name="username" onChange={handleChange} placeholder="Search"/>
             <label htmlFor="toyName">Toy name:</label>
-            <input type="text" name="toyName" onChange={handleChange} />
+            <input type="text" name="toyName" onChange={handleChange} placeholder="Search" />
         </form>
         </section>
     )

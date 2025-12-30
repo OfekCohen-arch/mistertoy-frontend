@@ -10,20 +10,24 @@ import { userService } from "../../services/user.service.js";
 
 export async function loadReviews(filterBy) {
   store.dispatch({ type: SET_IS_LOADING, isLoading: true });
-  console.log(filterBy);
-  
+
   try {
     const reviews = await reviewService.query(filterBy);
-      var filteredReviews = reviews
-       filteredReviews = filteredReviews.filter((review) =>
-        review.byToy?.name?.toLowerCase().startsWith(filterBy?.toyName?.toLowerCase()) 
+    var filteredReviews = reviews;
+    if (filterBy.toyName || filterBy.username) {
+      filteredReviews = filteredReviews.filter((review) =>
+        review.byToy?.name
+          ?.toLowerCase()
+          .startsWith(filterBy?.toyName?.toLowerCase())
       );
       filteredReviews = filteredReviews.filter((review) =>
-        review.byUser?.username?.toLowerCase().startsWith(filterBy?.username?.toLowerCase()) 
+        review.byUser?.username
+          ?.toLowerCase()
+          .startsWith(filterBy?.username?.toLowerCase())
       );
-      console.log(filteredReviews);
+    }
     store.dispatch({ type: SET_REVIEWS, reviews: filteredReviews });
-    return filteredReviews
+    return filteredReviews;
   } catch (error) {
     console.log("cannot load reviews", error);
     throw error;
