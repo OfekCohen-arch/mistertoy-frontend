@@ -15,6 +15,7 @@ import { LoginSignup } from './pages/LoginSignup.jsx'
 import { UserDetails } from './pages/UserDetails.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
+import { UserMsg } from './cmps/UserMsg.jsx'
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
           </main>
         </section>
       </Router>
+      <UserMsg/>
     </Provider>
   )
 }
