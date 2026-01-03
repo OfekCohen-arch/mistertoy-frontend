@@ -6,9 +6,11 @@ import { showErrorMsg } from '../services/event-bus.service.js'
 import { ReviewList } from '../cmps/ReviewList.jsx'
 import {reviewService} from '../services/review.service.js'
 import {addReview, loadReviews} from '../store/actions/review.actions.js'
+import { SOCKET_EMIT_SET_TOPIC, socketService } from '../services/socket.service.js'
 export function ToyDetails() {
     const [toy, setToy] = useState(null)
     const { toyId } = useParams()
+    const [msgs,setMsgs] = useState([])
     const [msg, setMsg] = useState({ txt: '' })
     const { txt } = msg
     const user = useSelector((storeState) => storeState.userModule.loggedInUser)
@@ -19,6 +21,7 @@ export function ToyDetails() {
         if (toyId){ 
             loadToy()
             loadReviews({toyId})
+            socketService.emit(SOCKET_EMIT_SET_TOPIC,toyId)
         }
     }, [toyId])
     useEffect(() => {
@@ -41,6 +44,7 @@ export function ToyDetails() {
         try {
             const toy = await toyService.getById(toyId)
             setToy(toy)
+            setMsgs(toy.msgs)
         }
 
         catch (err) {
@@ -112,7 +116,7 @@ export function ToyDetails() {
             <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
             <Link to={`/toy`}>Back</Link>
             <Popup isOpen={isOpen} setIsOpen={open}>
-                <Chat toy={toy} handleChangeMsg={handleChangeMsg} onSaveMsg={onSaveMsg} txt={txt} />
+                <Chat msgs={msgs} handleChangeMsg={handleChangeMsg} onSaveMsg={onSaveMsg} txt={txt} />
             </Popup>
         </section>
     )
@@ -131,12 +135,12 @@ function Popup({ children, isOpen, setIsOpen }) {
         </section>
     )
 }
-function Chat({toy,handleChangeMsg,onSaveMsg,txt}) {
+function Chat({msgs,handleChangeMsg,onSaveMsg,txt}) {
     return (
         <section className='chat'>
             <ul>
-                {toy.msgs &&
-                toy.msgs.map(msg => (
+                {msgs &&
+                msgs.map(msg => (
                   <li key={msg.id}>
                     By: {msg.by ? msg.by.fullname : 'Unknown User'} - {msg.txt}
                   </li>
