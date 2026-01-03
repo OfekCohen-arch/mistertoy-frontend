@@ -95,27 +95,8 @@ export function ToyDetails() {
             )}</ul>
             <img src={toy.imgUrl} />
             <ul>
-             {toy.msgs &&
-                toy.msgs.map(msg => (
-                  <li key={msg.id}>
-                    By: {msg.by ? msg.by.fullname : 'Unknown User'} - {msg.txt}
-                  </li>
-                ))}   
+                
             </ul>
-            {user && <div >
-                <h1>Chat</h1>
-                <form className='formik' method='post' onSubmit={onSaveMsg}>
-                    <input
-                        type='text'
-                        placeholder='Enter your message'
-                        name='txt'
-                        value={txt}
-                        required
-                        onChange={handleChangeMsg}
-                    />
-                    <button>Send</button>
-                </form>
-            </div>}
             <div style={{border: '1px black solid', margin:'20px'}}>
                 <h3>Add a review</h3>
             <form method='post' className='formik' onSubmit={onSaveReview}>
@@ -131,7 +112,7 @@ export function ToyDetails() {
             <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
             <Link to={`/toy`}>Back</Link>
             <Popup isOpen={isOpen} setIsOpen={open}>
-                <Chat />
+                <Chat toy={toy} handleChangeMsg={handleChangeMsg} onSaveMsg={onSaveMsg} txt={txt} />
             </Popup>
         </section>
     )
@@ -150,16 +131,29 @@ function Popup({ children, isOpen, setIsOpen }) {
         </section>
     )
 }
-function Chat() {
+function Chat({toy,handleChangeMsg,onSaveMsg,txt}) {
     return (
         <section className='chat'>
             <ul>
-                <li>Ya: Is there anyone here?</li>
-                <li>Support: Sure thing honey</li>
+                {toy.msgs &&
+                toy.msgs.map(msg => (
+                  <li key={msg.id}>
+                    By: {msg.by ? msg.by.fullname : 'Unknown User'} - {msg.txt}
+                  </li>
+                ))}
             </ul>
             <div className='send-container'>
-                <input type='text' />
-                <button>Send</button>
+                <form className='send-container' method='post' onSubmit={onSaveMsg}>
+                    <input
+                        type='text'
+                        placeholder='Enter your message'
+                        name='txt'
+                        value={txt}
+                        required
+                        onChange={handleChangeMsg}
+                    />
+                    <button>Send</button>
+                </form>
             </div>
         </section>
     )
