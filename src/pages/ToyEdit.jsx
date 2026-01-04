@@ -10,6 +10,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { CheckBox } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required please'),
@@ -17,6 +18,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 export function ToyEdit() {
+  const dispatch = useDispatch()
   const { toyId } = useParams()
   const [toy, setToy] = useState(toyService.getEmptyToy())
   const [isLoading, setIsLoading] = useState(false)
@@ -26,7 +28,12 @@ export function ToyEdit() {
 
   const navigate = useNavigate()
   useEffect(() => {
-    if (toyId) loadToy()
+    if (toyId) {
+      loadToy()
+    }
+    return () => {
+      
+    }
   }, [])
 
   async function loadToy() {
@@ -72,21 +79,20 @@ export function ToyEdit() {
     }
   }
 
-
   async function onSaveToy(ev) {
     ev.preventDefault()
     setIsLoading(true)
-    try{
-     const savedToy = await saveToy(toy)
-     setIsLoading(false)
-          showSuccessMsg('Toy Saved (id:', savedToy._id, ')')
-          navigate('/toy')
+    try {
+      const savedToy = await saveToy(toy)
+      setIsLoading(false)
+      showSuccessMsg('Toy Saved (id:', savedToy._id, ')')
+      navigate('/toy')
     }
-    catch(err){
-     Swal.fire('Only admin can add/edit toys!')
-          navigate('/toy')
+    catch (err) {
+      Swal.fire('Only admin can add/edit toys!')
+      navigate('/toy')
     }
-  
+
   }
 
 

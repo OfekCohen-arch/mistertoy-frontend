@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions.js";
 import { ToyList } from "../cmps/ToyList.jsx";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { ToyFilter } from "../cmps/ToyFilter.jsx";
 import { toyService } from "../services/toy.service.js";
 import { Button } from "@mui/material";
+import { SOCKET_EMIT_SET_TOPIC, SOCKET_EMIT_UPDATE_TOYS, SOCKET_EVENT_TOYS_UPDATED, socketService } from "../services/socket.service.js";
 
 
 export function ToyIndex(){
@@ -14,15 +15,23 @@ export function ToyIndex(){
     const filterBy = useSelector((storeState)=>storeState.toyModule.filterBy)
     const isLoading = useSelector((storeState)=>storeState.toyModule.isLoading)
     const labels = toyService.getLabels()
-    const navigate = useNavigate()
     useEffect(()=>{
     loadToys(filterBy)
+    
     },[filterBy])
-
+    useEffect(()=>{
+      socketService.on(SOCKET_EVENT_TOYS_UPDATED,loadToys)
+      socketService.emit(SOCKET_EMIT_UPDATE_TOYS,filterBy)
+      socketService.emit(SOCKET_EMIT_SET_TOPIC,'toys')
+      return()=>{
+        socketService.off(SOCKET_EVENT_TOYS_UPDATED,loadToys)
+      }
+    },[])
    async function onRemoveToy(toyId){
         if(!confirm('Are you sure?')) return
         try{
             await removeToy(toyId)
+            socketService.emit(SOCKET_EMIT_UPDATE_TOYS,filterBy)
             showSuccessMsg('The Toy (id: ',toyId,') removed!')
         }
         catch{
@@ -30,7 +39,7 @@ export function ToyIndex(){
           showErrorMsg('Cannot remove toy')  
         }
     }
-
+    
     
     return(
 

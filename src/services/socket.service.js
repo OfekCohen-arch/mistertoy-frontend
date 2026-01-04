@@ -4,10 +4,15 @@ const { VITE_LOCAL, DEV } = import.meta.env
 
 export const SOCKET_EMIT_SEND_MSG = 'chat-send-msg'
 export const SOCKET_EMIT_ADD_REVIEW = 'add-review'
+export const SOCKET_EMIT_UPDATE_REVIEWS = 'update-reviews'
 export const SOCKET_EMIT_SET_TOPIC = 'chat-set-topic'
 export const SOCKET_EMIT_USER_WATCH = 'user-watch'
+export const SOCKET_EMIT_UPDATE_TOYS = 'update-toys'
+
 export const SOCKET_EVENT_REVIEW_ADDED = 'review-added'
+export const SOCKET_EVENT_REVIEWS_UPDATED = 'reviews-updated'
 export const SOCKET_EVENT_ADD_MSG = 'chat-add-msg'
+export const SOCKET_EVENT_TOYS_UPDATED = 'toys-updated'
 
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
@@ -92,7 +97,12 @@ function createDummySocketService() {
            if(eventName === SOCKET_EMIT_ADD_REVIEW){
 			listeners = listenersMap[SOCKET_EVENT_REVIEW_ADDED]
 		   }
-
+           if(eventName === SOCKET_EMIT_UPDATE_TOYS){
+			listeners = listenersMap[SOCKET_EVENT_TOYS_UPDATED]
+		   }
+		   if(eventName === SOCKET_EMIT_UPDATE_REVIEWS){
+			listeners = listenersMap[SOCKET_EVENT_REVIEWS_UPDATED]
+		   }
 			if (!listeners) return
 
 

@@ -6,7 +6,7 @@ import { showErrorMsg } from '../services/event-bus.service.js'
 import { ReviewList } from '../cmps/ReviewList.jsx'
 import { reviewService } from '../services/review.service.js'
 import { addReview, loadReviews } from '../store/actions/review.actions.js'
-import { SOCKET_EMIT_ADD_REVIEW, SOCKET_EMIT_SEND_MSG, SOCKET_EMIT_SET_TOPIC, SOCKET_EVENT_ADD_MSG, SOCKET_EVENT_REVIEW_ADDED, socketService } from '../services/socket.service.js'
+import { SOCKET_EMIT_ADD_REVIEW, SOCKET_EMIT_SEND_MSG, SOCKET_EMIT_SET_TOPIC, SOCKET_EMIT_UPDATE_REVIEWS, SOCKET_EVENT_ADD_MSG, SOCKET_EVENT_REVIEW_ADDED, socketService } from '../services/socket.service.js'
 import { ADD_REVIEW } from '../store/reducers/review.reducer.js'
 export function ToyDetails() {
     const dispatch = useDispatch()
@@ -93,13 +93,14 @@ export function ToyDetails() {
         try {
             const savedReview = await addReview(reviewToEdit)
             socketService.emit(SOCKET_EMIT_ADD_REVIEW, savedReview)
+            
         }
         catch (error) {
             Swal.fire('Only logged in user can write a review!')
         }
     }
     function addNewReview(savedReview) {
-        console.log('passiert');
+        
         
         dispatch({ type: ADD_REVIEW, review: savedReview })
     }

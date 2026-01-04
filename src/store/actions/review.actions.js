@@ -10,7 +10,7 @@ import { userService } from "../../services/user.service.js";
 
 export async function loadReviews(filterBy) {
   store.dispatch({ type: SET_IS_LOADING, isLoading: true });
-
+  
   try {
     const reviews = await reviewService.query(filterBy);
     var filteredReviews = reviews;
