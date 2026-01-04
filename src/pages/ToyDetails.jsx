@@ -1,27 +1,28 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState,useRef } from 'react'
 import { toyService } from '../services/toy.service.js'
 import { Link, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { showErrorMsg } from '../services/event-bus.service.js'
 import { ReviewList } from '../cmps/ReviewList.jsx'
-import {reviewService} from '../services/review.service.js'
-import {addReview, loadReviews} from '../store/actions/review.actions.js'
-import { SOCKET_EMIT_SET_TOPIC, socketService } from '../services/socket.service.js'
+import { reviewService } from '../services/review.service.js'
+import { addReview, loadReviews } from '../store/actions/review.actions.js'
+import { SOCKET_EMIT_SEND_MSG, SOCKET_EMIT_SET_TOPIC, SOCKET_EVENT_ADD_MSG, socketService } from '../services/socket.service.js'
 export function ToyDetails() {
+    
     const [toy, setToy] = useState(null)
     const { toyId } = useParams()
-    const [msgs,setMsgs] = useState([])
+    const user = useSelector((storeState) => storeState.userModule.loggedInUser)
+    const [msgs, setMsgs] = useState([])
     const [msg, setMsg] = useState({ txt: '' })
     const { txt } = msg
-    const user = useSelector((storeState) => storeState.userModule.loggedInUser)
     const reviews = useSelector((storeState) => storeState.reviewModule.reviews)
-    const [reviewToEdit,setReviewToEdit] = useState(reviewService.getEmptyReview(toyId))
+    const [reviewToEdit, setReviewToEdit] = useState(reviewService.getEmptyReview(toyId))
     const [isOpen, setIsOpen] = useState(false)
     useEffect(() => {
-        if (toyId){ 
+        if (toyId) {
             loadToy()
-            loadReviews({toyId})
-            socketService.emit(SOCKET_EMIT_SET_TOPIC,toyId)
+            loadReviews({ toyId })
+            socketService.emit(SOCKET_EMIT_SET_TOPIC, toyId)
         }
     }, [toyId])
     useEffect(() => {
@@ -30,13 +31,21 @@ export function ToyDetails() {
                 setIsOpen(false)
             }
         }
-
+        
         window.addEventListener('keydown', onKeyDown)
+        socketService.on(SOCKET_EVENT_ADD_MSG, addMsg)
 
         return () => {
             window.removeEventListener('keydown', onKeyDown)
+            socketService.off(SOCKET_EVENT_ADD_MSG, addMsg)
         }
     }, [])
+    function addMsg(newMsg) {
+        console.log('new msg:', newMsg);
+
+        setMsgs(prevMsgs => [...prevMsgs, newMsg])
+    }
+
     function open() {
         setIsOpen(true)
     }
@@ -44,7 +53,7 @@ export function ToyDetails() {
         try {
             const toy = await toyService.getById(toyId)
             setToy(toy)
-            setMsgs(toy.msgs)
+            setMsgs(toy.msgs || [])
         }
 
         catch (err) {
@@ -57,10 +66,10 @@ export function ToyDetails() {
         const value = ev.target.value
         setMsg(msg => ({ ...msg, [field]: value }))
     }
-    function handleChangeReview(ev){
-     const field = ev.target.name
-     const value = ev.target.value 
-     setReviewToEdit(review=>({...review, [field]: value}))  
+    function handleChangeReview(ev) {
+        const field = ev.target.name
+        const value = ev.target.value
+        setReviewToEdit(review => ({ ...review, [field]: value }))
     }
     async function onSaveMsg(ev) {
         ev.preventDefault()
@@ -70,6 +79,8 @@ export function ToyDetails() {
                 ...prevToy,
                 msgs: [...(prevToy.msgs || []), savedMsg],
             }))
+
+            socketService.emit(SOCKET_EMIT_SEND_MSG, savedMsg)
             setMsg({ txt: '' })
             showSuccessMsg('Message saved!')
         } catch (error) {
@@ -77,15 +88,15 @@ export function ToyDetails() {
         }
     }
     async function onSaveReview(ev) {
-     ev.preventDefault()
-     try{
-        await addReview(reviewToEdit) 
-     }
-     catch(error){
-        Swal.fire('Only logged in user can write a review!')
-     }  
+        ev.preventDefault()
+        try {
+            await addReview(reviewToEdit)
+        }
+        catch (error) {
+            Swal.fire('Only logged in user can write a review!')
+        }
     }
-    
+
     if (!toy) return <div>Loading...</div>
 
     return (
@@ -99,20 +110,20 @@ export function ToyDetails() {
             )}</ul>
             <img src={toy.imgUrl} />
             <ul>
-                
+
             </ul>
-            <div style={{border: '1px black solid', margin:'20px'}}>
+            <div style={{ border: '1px black solid', margin: '20px' }}>
                 <h3>Add a review</h3>
-            <form method='post' className='formik' onSubmit={onSaveReview}>
-                <input type='text'
-                 name='txt'
-                 placeholder='Write your review here'
-                 onChange={handleChangeReview}
-                 />
-                 <button>Send</button>
-                </form>    
+                <form method='post' className='formik' onSubmit={onSaveReview}>
+                    <input type='text'
+                        name='txt'
+                        placeholder='Write your review here'
+                        onChange={handleChangeReview}
+                    />
+                    <button>Send</button>
+                </form>
             </div>
-            <ReviewList reviews={reviews}/>
+            <ReviewList reviews={reviews} />
             <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
             <Link to={`/toy`}>Back</Link>
             <Popup isOpen={isOpen} setIsOpen={open}>
@@ -135,17 +146,25 @@ function Popup({ children, isOpen, setIsOpen }) {
         </section>
     )
 }
-function Chat({msgs,handleChangeMsg,onSaveMsg,txt}) {
+function Chat({ msgs, handleChangeMsg, onSaveMsg, txt }) {
+    const messagesEndRef = useRef(null)
+    useEffect(() => {
+            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+        }, [msgs])
     return (
         <section className='chat'>
+            <div className='chat-list'>
             <ul>
                 {msgs &&
-                msgs.map(msg => (
-                  <li key={msg.id}>
-                    By: {msg.by ? msg.by.fullname : 'Unknown User'} - {msg.txt}
-                  </li>
-                ))}
+                    msgs.map(msg => (
+                        <li key={msg.id}>
+                            By: {msg.by ? msg.by.fullname : 'Unknown User'} - {msg.txt}
+                        </li>
+                    ))}
             </ul>
+            <div ref={messagesEndRef}/>
+            </div>
+            
             <div className='send-container'>
                 <form className='send-container' method='post' onSubmit={onSaveMsg}>
                     <input
@@ -159,6 +178,7 @@ function Chat({msgs,handleChangeMsg,onSaveMsg,txt}) {
                     <button>Send</button>
                 </form>
             </div>
+            
         </section>
     )
 }

@@ -7,6 +7,15 @@
  border: solid 1px black;
  color: black;
  text-align: start;  
+display: flex;
+flex-direction: column;
+}
+.chat-list {
+  flex: 1;
+  overflow-y: scroll;
+  margin: 0;
+  list-style: none;
+  padding-block: 10px;
 }
 .chat li{
     padding: 5px;
@@ -15,11 +24,11 @@
     background-color: gray;
 }
 .send-container{
-    position: absolute;
-    bottom: 0;
     display: flex;
     width: 100%;
     border: 1px black solid;
+    position: absolute;
+    bottom: 0;
 }
 .send-container input{
 flex-grow: 5;
