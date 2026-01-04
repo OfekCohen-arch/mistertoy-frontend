@@ -3,6 +3,7 @@ import { userService } from './user.service.js'
 const { VITE_LOCAL, DEV } = import.meta.env
 
 export const SOCKET_EMIT_SEND_MSG = 'chat-send-msg'
+export const SOCKET_EMIT_ADD_REVIEW = 'add-review'
 export const SOCKET_EMIT_SET_TOPIC = 'chat-set-topic'
 export const SOCKET_EMIT_USER_WATCH = 'user-watch'
 export const SOCKET_EVENT_REVIEW_ADDED = 'review-added'
@@ -88,7 +89,9 @@ function createDummySocketService() {
 			if (eventName === SOCKET_EMIT_SEND_MSG) {
 				listeners = listenersMap[SOCKET_EVENT_ADD_MSG]
 			}
-
+           if(eventName === SOCKET_EMIT_ADD_REVIEW){
+			listeners = listenersMap[SOCKET_EVENT_REVIEW_ADDED]
+		   }
 
 			if (!listeners) return
 

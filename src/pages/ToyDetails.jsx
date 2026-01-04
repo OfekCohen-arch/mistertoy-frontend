@@ -1,14 +1,15 @@
-import { useEffect, useState,useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { toyService } from '../services/toy.service.js'
 import { Link, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { showErrorMsg } from '../services/event-bus.service.js'
 import { ReviewList } from '../cmps/ReviewList.jsx'
 import { reviewService } from '../services/review.service.js'
 import { addReview, loadReviews } from '../store/actions/review.actions.js'
-import { SOCKET_EMIT_SEND_MSG, SOCKET_EMIT_SET_TOPIC, SOCKET_EVENT_ADD_MSG, socketService } from '../services/socket.service.js'
+import { SOCKET_EMIT_ADD_REVIEW, SOCKET_EMIT_SEND_MSG, SOCKET_EMIT_SET_TOPIC, SOCKET_EVENT_ADD_MSG, SOCKET_EVENT_REVIEW_ADDED, socketService } from '../services/socket.service.js'
+import { ADD_REVIEW } from '../store/reducers/review.reducer.js'
 export function ToyDetails() {
-    
+    const dispatch = useDispatch()
     const [toy, setToy] = useState(null)
     const { toyId } = useParams()
     const user = useSelector((storeState) => storeState.userModule.loggedInUser)
@@ -31,17 +32,17 @@ export function ToyDetails() {
                 setIsOpen(false)
             }
         }
-        
+
         window.addEventListener('keydown', onKeyDown)
         socketService.on(SOCKET_EVENT_ADD_MSG, addMsg)
-
+        socketService.on(SOCKET_EVENT_REVIEW_ADDED, addNewReview)
         return () => {
             window.removeEventListener('keydown', onKeyDown)
             socketService.off(SOCKET_EVENT_ADD_MSG, addMsg)
+            socketService.off(SOCKET_EVENT_REVIEW_ADDED, addNewReview)
         }
     }, [])
     function addMsg(newMsg) {
-        console.log('new msg:', newMsg);
 
         setMsgs(prevMsgs => [...prevMsgs, newMsg])
     }
@@ -90,13 +91,18 @@ export function ToyDetails() {
     async function onSaveReview(ev) {
         ev.preventDefault()
         try {
-            await addReview(reviewToEdit)
+            const savedReview = await addReview(reviewToEdit)
+            socketService.emit(SOCKET_EMIT_ADD_REVIEW, savedReview)
         }
         catch (error) {
             Swal.fire('Only logged in user can write a review!')
         }
     }
-
+    function addNewReview(savedReview) {
+        console.log('passiert');
+        
+        dispatch({ type: ADD_REVIEW, review: savedReview })
+    }
     if (!toy) return <div>Loading...</div>
 
     return (
@@ -149,22 +155,22 @@ function Popup({ children, isOpen, setIsOpen }) {
 function Chat({ msgs, handleChangeMsg, onSaveMsg, txt }) {
     const messagesEndRef = useRef(null)
     useEffect(() => {
-            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-        }, [msgs])
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, [msgs])
     return (
         <section className='chat'>
             <div className='chat-list'>
-            <ul>
-                {msgs &&
-                    msgs.map(msg => (
-                        <li key={msg.id}>
-                            By: {msg.by ? msg.by.fullname : 'Unknown User'} - {msg.txt}
-                        </li>
-                    ))}
-            </ul>
-            <div ref={messagesEndRef}/>
+                <ul>
+                    {msgs &&
+                        msgs.map(msg => (
+                            <li key={msg.id}>
+                                By: {msg.by ? msg.by.fullname : 'Unknown User'} - {msg.txt}
+                            </li>
+                        ))}
+                </ul>
+                <div ref={messagesEndRef} />
             </div>
-            
+
             <div className='send-container'>
                 <form className='send-container' method='post' onSubmit={onSaveMsg}>
                     <input
@@ -178,7 +184,7 @@ function Chat({ msgs, handleChangeMsg, onSaveMsg, txt }) {
                     <button>Send</button>
                 </form>
             </div>
-            
+
         </section>
     )
 }

@@ -40,7 +40,7 @@ export async function addReview(review) {
     const userId = await userService.getLoggedInUser()._id;
     review = { ...review, userId };
     const savedReview = await reviewService.save(review);
-    store.dispatch({ type: ADD_REVIEW, review: savedReview });
+   // store.dispatch({ type: ADD_REVIEW, review: savedReview });
     return savedReview;
   } catch (error) {
     console.log("cannot save review ", error);
