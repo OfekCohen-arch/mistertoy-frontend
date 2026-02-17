@@ -4,7 +4,7 @@ import { loadReviews } from "../store/actions/review.actions.js"
 import { ReviewList } from "../cmps/ReviewList"
 import { ReviewFilter } from "../cmps/ReviewFilter"
 import { setFilterBy } from "../store/actions/toy.actions"
-import { SOCKET_EMIT_SET_TOPIC, SOCKET_EMIT_UPDATE_REVIEWS, SOCKET_EVENT_REVIEWS_UPDATED, socketService } from "../services/socket.service"
+import { SOCKET_EVENT_REVIEW_ADDED, socketService } from "../services/socket.service.js"
 
 export function ReviewIndex(){
     const reviews = useSelector((storeState)=>storeState.reviewModule.reviews)
@@ -13,11 +13,9 @@ export function ReviewIndex(){
      loadReviews(filterBy)
     },[filterBy])
     useEffect(()=>{
-     socketService.on(SOCKET_EVENT_REVIEWS_UPDATED,loadReviews)
-     socketService.emit(SOCKET_EMIT_UPDATE_REVIEWS,filterBy) 
-     socketService.emit(SOCKET_EMIT_SET_TOPIC,'reviews') 
+     socketService.on(SOCKET_EVENT_REVIEW_ADDED,loadReviews)
      return()=>{
-        socketService.off(SOCKET_EVENT_REVIEWS_UPDATED,loadReviews)
+        socketService.off(SOCKET_EVENT_REVIEW_ADDED,loadReviews)
      } 
     },[])
     return(
