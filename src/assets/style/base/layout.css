@@ -3,3 +3,6 @@
   padding-left: 1.6rem;
   padding-right: 1.6rem;
 }
+main {
+    flex-grow: 1;
+}

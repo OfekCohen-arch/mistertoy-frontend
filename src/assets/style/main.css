@@ -23,17 +23,4 @@
 @import '../style/cmps/review-list.css';
 @import '../style/cmps/review-preview.css';
 @import '../style/cmps/admin-index.css';
-.app {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-width: 100vw;
-}
 
-.app > * {
-    width: 100%;
-}
-
-main {
-    flex-grow: 1;
-}
