@@ -42,4 +42,5 @@ flex-grow: 5;
     position: fixed;
     bottom: 0;
     right: 0;
+    border: black solid 3px;
 }

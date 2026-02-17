@@ -8,6 +8,7 @@ import { reviewService } from '../services/review.service.js'
 import { addReview, loadReviews } from '../store/actions/review.actions.js'
 import { SOCKET_EMIT_ADD_REVIEW, SOCKET_EMIT_SEND_MSG, SOCKET_EMIT_SET_TOPIC, SOCKET_EMIT_UPDATE_REVIEWS, SOCKET_EVENT_ADD_MSG, SOCKET_EVENT_REVIEW_ADDED, socketService } from '../services/socket.service.js'
 import { ADD_REVIEW } from '../store/reducers/review.reducer.js'
+
 export function ToyDetails() {
     const dispatch = useDispatch()
     const [toy, setToy] = useState(null)
@@ -119,7 +120,7 @@ export function ToyDetails() {
             <ul>
 
             </ul>
-            <div style={{ border: '1px black solid', margin: '20px' }}>
+            {user &&<div style={{ border: '1px black solid', margin: '20px' }}>
                 <h3>Add a review</h3>
                 <form method='post' className='formik' onSubmit={onSaveReview}>
                     <input type='text'
@@ -129,13 +130,13 @@ export function ToyDetails() {
                     />
                     <button>Send</button>
                 </form>
-            </div>
+            </div>}
             <ReviewList reviews={reviews} />
             <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
             <Link to={`/toy`}>Back</Link>
-            <Popup isOpen={isOpen} setIsOpen={open}>
+            {user&&<Popup isOpen={isOpen} setIsOpen={open}>
                 <Chat msgs={msgs} handleChangeMsg={handleChangeMsg} onSaveMsg={onSaveMsg} txt={txt} />
-            </Popup>
+            </Popup>}
         </section>
     )
 }
