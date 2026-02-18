@@ -14,7 +14,7 @@ export async function loadReviews(filterBy) {
   try {
     const reviews = await reviewService.query(filterBy);
     var filteredReviews = reviews;
-    if (filterBy.toyName || filterBy.username) {
+    
       filteredReviews = filteredReviews.filter((review) =>
         review.byToy?.name
           ?.toLowerCase()
@@ -25,7 +25,7 @@ export async function loadReviews(filterBy) {
           ?.toLowerCase()
           .startsWith(filterBy?.username?.toLowerCase())
       );
-    }
+    
     store.dispatch({ type: SET_REVIEWS, reviews: filteredReviews });
     return filteredReviews;
   } catch (error) {
