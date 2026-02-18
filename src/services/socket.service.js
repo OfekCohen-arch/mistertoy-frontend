@@ -7,10 +7,12 @@ export const SOCKET_EMIT_ADD_REVIEW = 'add-review'
 export const SOCKET_EMIT_SET_TOPIC = 'chat-set-topic'
 export const SOCKET_EMIT_USER_WATCH = 'user-watch'
 export const SOCKET_EMIT_UPDATE_TOYS = 'update-toys'
+export const SOCKET_EMIT_USER_TYPING = 'user-typing'
 
 export const SOCKET_EVENT_REVIEW_ADDED = 'review-added'
 export const SOCKET_EVENT_ADD_MSG = 'chat-add-msg'
 export const SOCKET_EVENT_TOYS_UPDATED = 'toys-updated'
+export const SOCKET_EVENT_DISPLAY_TYPING = 'display-typing'
 
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
