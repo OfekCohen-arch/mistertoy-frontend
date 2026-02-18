@@ -1,46 +1,55 @@
-.chat{
- position: fixed;
- bottom: 0;
- right: 0;
- height: 50vh;
- width: 25vw; 
- border: solid 1px black;
- color: black;
- text-align: start;  
-display: flex;
-flex-direction: column;
+.chat {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 50vh;
+  width: 25vw;
+  border: solid 1px black;
+  color: black;
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 .chat-list {
   flex: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin: 0;
   list-style: none;
   padding-block: 10px;
 }
-.chat li{
-    padding: 5px;
+
+.chat li {
+  padding: 5px;
 }
-.chat li:nth-child(odd){
-    background-color: gray;
+.chat li:nth-child(odd) {
+  background-color: gray;
 }
-.send-container{
-    display: flex;
-    width: 100%;
-    border: 1px black solid;
-    position: absolute;
-    bottom: 0;
+.typing-user {
+  color: red;
+  height: 20px;
+  font-size: 0.8rem;
+  line-height: 20px;
+  margin-left: 10px;
 }
-.send-container input{
-flex-grow: 5;
+.send-container {
+  display: flex;
+  width: 100%;
+  border: 1px black solid;
 }
-.send-container button{
-    flex-grow: 1;
-    background-color: aqua;
-    border-radius: 0;
+.send-container input {
+  flex-grow: 5;
 }
-.chat-btn{
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    border: black solid 3px;
+.send-container button {
+  flex-grow: 1;
+  background-color: aqua;
+  border-radius: 0;
+}
+.chat-btn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  border: black solid 3px;
 }

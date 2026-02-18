@@ -96,6 +96,7 @@ export function ToyDetails() {
             }))
 
             socketService.emit(SOCKET_EMIT_SEND_MSG, savedMsg)
+            socketService.emit(SOCKET_EMIT_USER_TYPING,null)
             setMsg({ txt: '' })
             showSuccessMsg('Message saved!')
         } catch (error) {
@@ -185,12 +186,15 @@ function Chat({ msgs, handleChangeMsg, onSaveMsg, txt, typingUser }) {
                             </li>
                         ))}
                 </ul>
+                
+                
                 <div ref={messagesEndRef} />
-                {typingUser &&
-                    <p>{typingUser} is typing...</p>
-                }
             </div>
-
+            
+             
+                    <p className='typing-user'>{ typingUser?`${typingUser} is typing...`:''}</p>
+                
+                
             <div className='send-container'>
                 <form className='send-container' method='post' onSubmit={onSaveMsg}>
                     <input
