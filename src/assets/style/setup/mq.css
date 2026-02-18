@@ -1,8 +1,43 @@
 @media (max-width: 740px) {
+  .main-header {
+    flex-direction: column;
+  }
+  .main-nav {
+    flex-direction: column;
+    justify-content: start !important;
+    gap: 30px;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    margin-top: 70px;
+    z-index: 900;
+    width: 0px;
+    height: max-content;
+    padding-block: 10px;
+    z-index: 1000;
+    background-color: #595959;
+    overflow-x: hidden;
+    transition: 0.3s;
+  }
+  .main-nav.open{
+    width: 100px;
+  }
+  .toggle-nav-btn {
+    visibility: visible;
+  }
+  
+  .main-nav .link {
+    display: flex;
+    align-items: start;
+  }
   .toy-list {
     grid-template-columns: 1fr;
   }
-  .review-list{
+  .review-list {
     grid-template-columns: 1fr 1fr;
+  }
+  .chat {
+    width: 50%;
+    right: 20vw;
   }
 }

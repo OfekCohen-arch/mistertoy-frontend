@@ -10,8 +10,6 @@ import { userService } from "../../services/user.service.js";
 
 export async function loadReviews(filterBy) {
   store.dispatch({ type: SET_IS_LOADING, isLoading: true });
-  console.log(filterBy);
-  
   try {
     const reviews = await reviewService.query(filterBy);
     if(!filterBy.toyName&& !filterBy.username){
