@@ -1,0 +1,8 @@
+@media (max-width: 740px) {
+  .toy-list {
+    grid-template-columns: 1fr;
+  }
+  .review-list{
+    grid-template-columns: 1fr 1fr;
+  }
+}

@@ -1,6 +1,3 @@
-/* Setup */
-@import '../style/setup/typography.css';
-@import '../style/setup/vars.css';
 
 /* base */
 @import '../style/base/base.css';
@@ -23,4 +20,10 @@
 @import '../style/cmps/review-list.css';
 @import '../style/cmps/review-preview.css';
 @import '../style/cmps/admin-index.css';
+
+/* Setup */
+@import '../style/setup/typography.css';
+@import '../style/setup/vars.css';
+@import '../style/setup/mq.css';
+
 
