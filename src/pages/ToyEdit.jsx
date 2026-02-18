@@ -6,12 +6,9 @@ import { showSuccessMsg } from "../services/event-bus.service.js";
 import { useOnlineStatus } from "../hooks/useOnlineStatus.js";
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
 import { Button, TextField } from '@mui/material';
-import SaveIcon from '@mui/icons-material/Save';
 import Swal from 'sweetalert2'
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { CheckBox } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required please'),
@@ -19,13 +16,15 @@ const SignupSchema = Yup.object().shape({
 });
 
 export function ToyEdit() {
-  const dispatch = useDispatch()
   const { toyId } = useParams()
   const [toy, setToy] = useState(toyService.getEmptyToy())
   const [isLoading, setIsLoading] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const labels = toyService.getLabels()
+  const [selectedLabels, setSelectedLabels] = useState([])
   const isOnline = useOnlineStatus()
   const setHasUnsavedChanges = useConfirmTabClose()
+
 
   const navigate = useNavigate()
   useEffect(() => {
@@ -33,7 +32,7 @@ export function ToyEdit() {
       loadToy()
     }
     return () => {
-      
+
     }
   }, [])
 
@@ -50,7 +49,7 @@ export function ToyEdit() {
   }
   function resetLabels(ev) {
     ev.preventDefault()
-    setToy((prevToy) => ({ ...prevToy, labels: [] }))
+    setSelectedLabels([])
   }
   function handleChange({ target }) {
     const field = target.name
@@ -72,11 +71,11 @@ export function ToyEdit() {
     setToy((prevToy) => ({ ...prevToy, [field]: value }))
     setHasUnsavedChanges(true)
   }
-  function handleChangeLabels({ target }) {
-    const { name, checked } = target
-    if (checked) setToy((prevToy) => ({ ...prevToy, labels: [...toy.labels, name] }))
-    else {
-      setToy((prevToy) => ({ ...prevToy, labels: toy.labels.filter(label => label !== name) }))
+  function toggleOption(label) {
+    if (selectedLabels.includes(label)) {
+      setSelectedLabels(selectedLabels.filter(selectedlabel => selectedlabel !== label))
+    } else {
+      setSelectedLabels([...selectedLabels, label])
     }
   }
 
@@ -84,7 +83,7 @@ export function ToyEdit() {
     ev.preventDefault()
     setIsLoading(true)
     try {
-      const savedToy = await saveToy(toy)
+      const savedToy = await saveToy({...toy,labels:selectedLabels})
       setIsLoading(false)
       showSuccessMsg('Toy Saved (id:', savedToy._id, ')')
       navigate('/toy')
@@ -126,18 +125,35 @@ export function ToyEdit() {
             )}
             <label htmlFor="inStock">In Stock</label>
             <Field value={toy.inStock || true} checked={toy.inStock ?? true} onChange={handleChange} type='checkbox' label='In stock' name='inStock' />
-            <fieldset className="label-chooser">
-              {labels.map(label =>
-                <label key={label} className="tag">
-                  <input
-                    onChange={handleChangeLabels}
-                    name={label}
-                    checked={toy.labels.includes(label) || false}
-                    type="checkbox" />
-                  <span>{label}</span>
-                </label>)}
-              <Button variant="Clear Labels" onClick={resetLabels}>Clear Labels</Button>
-            </fieldset>
+            
+            <div className="multi-select">
+              <div className="select-display" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                {selectedLabels.length > 0
+                  ? `Selected (${selectedLabels.length})`
+                  : 'Select Labels...'}
+              </div>
+            </div>
+            {isDropdownOpen && (
+              <>
+              <ul className="options-list">
+                {labels.map(option => (
+                  <li
+                    key={option}
+                    className={selectedLabels.includes(option.id) ? 'selected' : ''}
+                  >
+                    <input
+                      type="checkbox"
+                      onChange={() => toggleOption(option)}
+                      checked={selectedLabels.includes(option)}
+                    />
+                    {option}
+                  </li>
+                ))}
+              </ul>
+              <Button style={{ border: '1px solid black' }} onClick={resetLabels} variant="Clear labels">Clear</Button>
+              </>
+            )}
+
             <Link to='/toy'> <Button style={{ border: '1px solid black' }}>Cancel</Button></Link>
             <Button style={{ border: '1px solid black' }} loading={isLoading} type="submit">Submit</Button>
           </Form>
