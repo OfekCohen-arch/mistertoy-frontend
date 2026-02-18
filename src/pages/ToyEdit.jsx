@@ -40,6 +40,7 @@ export function ToyEdit() {
     try {
       const toy = await toyService.getById(toyId)
       setToy(toy)
+      setSelectedLabels(toy.labels)
     }
     catch (err) {
       console.log('Had issues in toy edit', err)

@@ -10,23 +10,26 @@ import { userService } from "../../services/user.service.js";
 
 export async function loadReviews(filterBy) {
   store.dispatch({ type: SET_IS_LOADING, isLoading: true });
+  console.log(filterBy);
   
   try {
     const reviews = await reviewService.query(filterBy);
+    if(!filterBy.toyName&& !filterBy.username){
+       store.dispatch({ type: SET_REVIEWS, reviews: reviews });
+      return reviews}
     var filteredReviews = reviews;
-    
-      filteredReviews = filteredReviews.filter((review) =>
-        review.byToy?.name
-          ?.toLowerCase()
-          .startsWith(filterBy?.toyName?.toLowerCase())
-      );
-      filteredReviews = filteredReviews.filter((review) =>
-        review.byUser?.username
-          ?.toLowerCase()
-          .startsWith(filterBy?.username?.toLowerCase())
-      );
-    
+    filteredReviews = filteredReviews.filter((review) =>
+      review.byToy?.name
+        ?.toLowerCase()
+        .startsWith(filterBy?.toyName?.toLowerCase()),
+    );
+    filteredReviews = filteredReviews.filter((review) =>
+      review.byUser?.username
+        ?.toLowerCase()
+        .startsWith(filterBy?.username?.toLowerCase()),
+    );
     store.dispatch({ type: SET_REVIEWS, reviews: filteredReviews });
+
     return filteredReviews;
   } catch (error) {
     console.log("cannot load reviews", error);
@@ -40,7 +43,7 @@ export async function addReview(review) {
     const userId = await userService.getLoggedInUser()._id;
     review = { ...review, userId };
     const savedReview = await reviewService.save(review);
-   // store.dispatch({ type: ADD_REVIEW, review: savedReview });
+    // store.dispatch({ type: ADD_REVIEW, review: savedReview });
     return savedReview;
   } catch (error) {
     console.log("cannot save review ", error);

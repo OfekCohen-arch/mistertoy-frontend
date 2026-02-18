@@ -2,8 +2,8 @@ import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { loadReviews } from "../store/actions/review.actions.js"
 import { ReviewList } from "../cmps/ReviewList"
-import { ReviewFilter } from "../cmps/ReviewFilter"
-import { setFilterBy } from "../store/actions/toy.actions"
+import { ReviewFilter } from "../cmps/ReviewFilter.jsx"
+import { setFilterBy } from "../store/actions/toy.actions.js"
 import { SOCKET_EVENT_REVIEW_ADDED, socketService } from "../services/socket.service.js"
 
 export function ReviewIndex(){
@@ -16,6 +16,7 @@ export function ReviewIndex(){
      socketService.on(SOCKET_EVENT_REVIEW_ADDED,loadReviews)
      return()=>{
         socketService.off(SOCKET_EVENT_REVIEW_ADDED,loadReviews)
+        setFilterBy({})
      } 
     },[])
     return(
