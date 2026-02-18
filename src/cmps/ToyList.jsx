@@ -13,7 +13,7 @@ export function ToyList({toys,onRemoveToy}){
             )}
             {
                 toys.length === 0 &&
-                <p>There are not Toys yet...</p>
+                <p>No toys found..</p>
             }
         </ul>
     )

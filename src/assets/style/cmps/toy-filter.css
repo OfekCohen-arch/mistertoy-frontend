@@ -1,0 +1,9 @@
+.toy-filter{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: center;
+    gap: 25px;
+    margin-left: 30px;
+    margin-block: 20px;
+}

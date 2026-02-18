@@ -24,10 +24,6 @@ h6 {
     font-family: "Edu VIC WA NT Beginner", cursive;
 }
 
-p {
-    margin: 0 0 1em;
-}
-
 a {
     text-decoration: none;
     color: unset;
@@ -57,4 +53,7 @@ ul{
 list-style: none;
   padding: 0;
   margin: 0;
+}
+input{
+    border: 1px solid #333;
 }

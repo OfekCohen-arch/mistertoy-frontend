@@ -13,7 +13,7 @@ const [toggleBtnClass,setToggleBtnClass] = useState('main-nav')
         else setToggleBtnClass('main-nav')
      }
     return(
-        <header className="main-header" title='Look At ME!' >
+        <header className="main-header" >
              {loggedinUser && <p>Hello {loggedinUser.fullname}</p>}  
              <button className="toggle-nav-btn" onClick={toggleNav}>≡</button>
             <ul className={toggleBtnClass}>

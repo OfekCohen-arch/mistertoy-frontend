@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Select, { components } from 'react-select';
 import { utilService } from "../services/util.service.js";
-import { LabelChooser } from "./LabelChooser";
+
 
 
 export function ToyFilter({ filterBy, onSetFilter, labels }) {
@@ -21,17 +21,18 @@ export function ToyFilter({ filterBy, onSetFilter, labels }) {
 
     return (
         <section className="toy-filter">
-            <form>
-                <label htmlFor="name">Name:</label>
+            
+                <label htmlFor="name">Name: </label>
                 <input id="name" name="name" placeholder="search" type="search" onChange={handleChange} value={filterByToEdit.name} />
-
-                <label htmlFor="inStock">In Stock:</label>
+                <div>
+                <label htmlFor="inStock">In Stock: </label>
                 <select id="inStock" name="inStock" onChange={handleChange}>
                     <option value={''}>All</option>
                     <option value={true}>Yes</option>
                     <option value={false}>No</option>
                 </select>
-                <div style={{ width: '300px', margin: '50px auto' }}>
+                </div>
+                <div style={{ width: '300px', margin: ' 0 20px 20px 0' }}>
                     <label>Select labels:</label>
                     <Select
                         isMulti
@@ -48,7 +49,7 @@ export function ToyFilter({ filterBy, onSetFilter, labels }) {
                     />
                 </div>
 
-            </form>
+            
             <div className="sort-field">
                 <label className="tag" >
                     <span>Name</span>
